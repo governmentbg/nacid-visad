@@ -1,0 +1,30 @@
+<app-loading-indicator></app-loading-indicator>
+
+<header class="mb-5">
+	<div class="container d-flex align-items-center">
+		<div class="d-flex nav align-items-center"
+				 style="color: #ffffff;">
+			<a routerLink=""
+				 class="logo-link">
+				<img src="./../assets/nacid_logo.png">
+			</a>
+
+			<div class="title">
+				<h5>{{ 'common.nacid' | translate }}</h5>
+				<h6>{{ 'common.visaD' | translate }}</h6>
+			</div>
+
+			<app-menu *ngIf="isLoggedIn"
+								class="ml-auto d-flex align-items-right"
+								[menuItems]="menuItems"></app-menu>
+		</div>
+	</div>
+</header>
+
+<main class="container">
+	<router-outlet></router-outlet>
+	<app-scroll-to-top-btn></app-scroll-to-top-btn>
+</main>
+
+<footer style="margin-top: 6em;">
+</footer>

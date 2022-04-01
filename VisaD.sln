@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisaD.Hosting", "VisaD.Hosting\VisaD.Hosting.csproj", "{40AA4C8A-126C-45E9-9A74-4E8676B57FCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisaD.Application", "VisaD.Application\VisaD.Application.csproj", "{4F9943D5-2D14-4F41-9DD4-BB3A7587319A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14C71F52-4C17-41EE-B4FF-4C351D07BDDB} = {14C71F52-4C17-41EE-B4FF-4C351D07BDDB}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisaD.Data", "VisaD.Data\VisaD.Data.csproj", "{9BBB86D9-DAFE-40A0-9944-DE06FE67CC75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisaD.Persistence", "VisaD.Persistence\VisaD.Persistence.csproj", "{F8B08E7A-2112-4483-85A4-87EEADFC6987}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisaD.Infrastructure", "VisaD.Infrastructure\VisaD.Infrastructure.csproj", "{14C71F52-4C17-41EE-B4FF-4C351D07BDDB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Public.Hosting", "Public.Hosting\Public.Hosting.csproj", "{A4B6D2EE-74CA-4C62-BB69-3CE0A305C393}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40AA4C8A-126C-45E9-9A74-4E8676B57FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40AA4C8A-126C-45E9-9A74-4E8676B57FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40AA4C8A-126C-45E9-9A74-4E8676B57FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40AA4C8A-126C-45E9-9A74-4E8676B57FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F9943D5-2D14-4F41-9DD4-BB3A7587319A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9943D5-2D14-4F41-9DD4-BB3A7587319A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9943D5-2D14-4F41-9DD4-BB3A7587319A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9943D5-2D14-4F41-9DD4-BB3A7587319A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BBB86D9-DAFE-40A0-9944-DE06FE67CC75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BBB86D9-DAFE-40A0-9944-DE06FE67CC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BBB86D9-DAFE-40A0-9944-DE06FE67CC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BBB86D9-DAFE-40A0-9944-DE06FE67CC75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B08E7A-2112-4483-85A4-87EEADFC6987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B08E7A-2112-4483-85A4-87EEADFC6987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B08E7A-2112-4483-85A4-87EEADFC6987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B08E7A-2112-4483-85A4-87EEADFC6987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14C71F52-4C17-41EE-B4FF-4C351D07BDDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14C71F52-4C17-41EE-B4FF-4C351D07BDDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14C71F52-4C17-41EE-B4FF-4C351D07BDDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14C71F52-4C17-41EE-B4FF-4C351D07BDDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4B6D2EE-74CA-4C62-BB69-3CE0A305C393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B6D2EE-74CA-4C62-BB69-3CE0A305C393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B6D2EE-74CA-4C62-BB69-3CE0A305C393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B6D2EE-74CA-4C62-BB69-3CE0A305C393}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EFDD347-85AD-4645-A1FC-850A5DAF2954}
+	EndGlobalSection
+EndGlobal

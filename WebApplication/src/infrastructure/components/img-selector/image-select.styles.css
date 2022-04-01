@@ -1,0 +1,36 @@
+.img-changer {
+	position: relative;
+}
+
+/* @media screen and (min-width: 769px) {
+.img-changer > .upload-image {
+	display: none;
+}
+
+.img-changer:hover > .upload-image {
+	display: block;
+	position: absolute;
+}
+}
+
+@media screen and (min-width: 1025px) {
+	.upload-image {
+		bottom: 8em;
+		right: 6.5em;
+}
+}
+
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+	.upload-image {
+		bottom: 6.5em;
+		right: 4.5em;
+}
+} */
+
+	.upload-image {
+		text-align: center;
+	}
+
+	.choose-image {
+		margin-top: 0.5em;
+}

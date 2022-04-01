@@ -1,0 +1,169 @@
+<ng-form>
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-5">
+			<label class="d-inline-flex align-items-center">
+				{{ 'application.new.education.academicDegree' | translate }}
+
+				<app-help-tooltip class="ml-1"
+													tooltipText="{{ 'application.new.education.tooltipAcademicDegree' | translate }}">
+				</app-help-tooltip>
+			</label>
+
+			<app-async-select #educationalQualification="ngModel"
+												name="educationalQualification"
+												restUrl="EducationalQualification/Select"
+												[(ngModel)]="model.educationalQualification"
+												(ngModelChange)="setEducationalQualification($event)"
+												[disabled]="!isEditMode"
+												[required]="isEditMode"></app-async-select>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label class="d-inline-flex">
+				{{ 'application.new.education.year' | translate }}
+			</label>
+
+			<app-async-select #schoolYear="ngModel"
+												name="schoolYear"
+												restUrl="SchoolYear/Filtered"
+												[(ngModel)]="model.schoolYear"
+												[disabled]="!isEditMode"
+												[required]="isEditMode"></app-async-select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-9">
+			<label class="d-inline-flex">
+				{{ 'application.new.education.faculty' | translate }}
+			</label>
+
+			<app-async-select #faculty="ngModel"
+												name="institution"
+												restUrl="Institution/FacultyByQualification"
+												[(ngModel)]="model.faculty"
+												[filter]="{entityId: universityId, educationalQualificationId: model.educationalQualification?.id, isTrainee: isTrainee}"
+												(ngModelChange)="setFacultyId($event.id)"
+												[disabled]="!isEditMode || !model.educationalQualification?.id"
+												[required]="isEditMode"></app-async-select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div *ngIf="!isTrainee && model.specialization == null"
+				 class="form-group col-sm-12 col-md-9">
+			<label class="d-inline-flex">
+				{{ 'application.new.education.speciality' | translate }}
+			</label>
+
+			<app-async-select #speciality="ngModel"
+												name="speciality"
+												restUrl="Speciality/InstitutionSpecialitiesByQualification"
+												[(ngModel)]="model.speciality"
+												[filter]="{entityId: model.faculty?.id, educationalQualificationId: model.educationalQualification?.id}"
+												[checkKeys]="['id', 'form.id']"
+												(ngModelChange)="setSpecialityInformation($event)"
+												[disabled]="!isEditMode || !model.faculty?.id"
+												[required]="isEditMode">
+				<ng-template #dropdownItemTemplate
+										 let-item>
+					{{ item.name }}
+				</ng-template>
+			</app-async-select>
+		</div>
+
+		<div *ngIf="isTrainee || model.specialization != null"
+				 class="form-group col-sm-12 col-md-9">
+			<label class="d-inline-flex">
+				Специализация
+			</label>
+
+			<textarea class="form-control"
+								rows="3"
+								minlength="5"
+								maxlength="256"
+								name="specialization"
+								required
+								[(ngModel)]="model.specialization"
+								[disabled]="!isEditMode"></textarea>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-3">
+			<label class="d-inline-flex">
+				{{ 'application.new.education.educationFormType' | translate }}
+			</label>
+
+			<app-async-select #educationFormType="ngModel"
+												name="educationFormType"
+												restUrl="EducationFormType/Select"
+												[(ngModel)]="model.form"
+												[disabled]="!isTrainee || !isEditMode"
+												[required]="isEditMode"></app-async-select>
+		</div>
+
+		<div *ngIf="!isTrainee && model.specialization == null"
+				 class="form-group col-sm-12 col-md-3">
+			<label class="d-inline-flex align-items-center">
+				{{ 'application.new.education.duration' | translate }}
+				<app-help-tooltip class="ml-1"
+													tooltipText="{{ 'application.new.education.tooltipDuration' | translate }}">
+				</app-help-tooltip>
+			</label>
+
+			<input #duration="ngModel"
+						 name="duration"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.duration"
+						 [disabled]="true"
+						 required>
+		</div>
+
+		<div *ngIf="isTrainee || model.specialization != null"
+				 class="form-group col-sm-12 col-md-3">
+			<label class="d-inline-flex align-items-center">
+				Срок на обучение
+			</label>
+
+			<input #traineeDuration="ngModel"
+						 name="traineeDuration"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.traineeDuration"
+						 [disabled]="!isEditMode"
+						 required>
+		</div>
+
+		<div *ngIf="!model.educationSpecialityLanguages && !isTrainee"
+				 class="form-group col-sm-12 col-md-3">
+			<label class="d-inline-flex">
+				{{ 'application.new.education.language' | translate }}
+			</label>
+
+			<input type="text"
+						 style="caret-color: transparent;"
+						 onkeypress="return false;"
+						 required
+						 name="duration"
+						 class="form-control form-control-sm"
+						 required>
+		</div>
+
+		<div *ngFor="let language of model.educationSpecialityLanguages, let i = index"
+				 class="form-group col-sm-12 col-md-3">
+			<label class="d-inline-flex">
+				{{ 'application.new.education.language' | translate }}
+			</label>
+
+			<app-async-select #specialityLanguage="ngModel"
+												name="specialityLanguage--{{i}}"
+												restUrl="Language/InstitutionSpecialityLanguages"
+												[filter]="{entityId: model.faculty?.id, specialityId: model.speciality?.id}"
+												[(ngModel)]="model.educationSpecialityLanguages[i]"
+												(ngModelChange)="emitLanguageToTraining($event, index)"
+												[disabled]="!isEditMode || model.disableSpecialityLanguage || !model.speciality?.id"
+												[required]="isEditMode"></app-async-select>
+		</div>
+	</div>
+</ng-form>

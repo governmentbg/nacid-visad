@@ -1,0 +1,7 @@
+:host {
+	display: block;
+	background: #f5f5f5;
+	border-left: 8px solid var(--visad-primary-color);
+	padding: 20px 30px 20px 22px;
+	margin: 40px 0;
+}

@@ -1,0 +1,5 @@
+<ng-container *ngFor="let validationText of validationTexts">
+	<app-icon *ngIf="control.hasError(validationText.key)"
+						icon="exclamation-triangle-fill"
+						[ngbTooltip]="validationText.value"></app-icon>
+</ng-container>

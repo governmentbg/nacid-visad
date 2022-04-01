@@ -1,0 +1,22 @@
+<div class="img-changer mt-3">
+	<img [src]="imgSrc"
+			 width="100%"
+			 style="border-radius: 4px; display: block; margin: auto;"
+			 alt="Candidate Photo">
+
+	<div class="upload-image"
+			 *ngIf="!disabled">
+		<button class="choose-image btn btn-sm"
+						style="border-radius: 3px;"
+						[ngClass]="{'btn-outline-danger': model == null, 'btn-outline-primary': model != null}"
+						(click)="fileSelect.click()">
+			{{ 'candidate.new.imgUpload' | translate }}
+
+			<input #fileSelect
+						 type="file"
+						 style="display: none;"
+						 required
+						 (change)="changeImage($event)">
+		</button>
+	</div>
+</div>

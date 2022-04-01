@@ -1,0 +1,35 @@
+<div class="card d-flex">
+	<div class="card-header d-flex">
+		<h5>{{ 'candidate.new.title' | translate }}</h5>
+
+		<div style="margin-left: auto;">
+			<button class="btn btn-primary mr-3 pl-4 pr-4"
+							style="display: inline-flex; align-items: center;"
+							(click)="save()"
+							[disabled]="!canSubmit">
+				<app-icon icon="pencil"
+									class="mr-1"
+									width="14"
+									height="14"></app-icon>
+				{{ 'candidate.new.saveCandidate' | translate }}
+			</button>
+
+			<button class="btn btn-secondary pl-4 pr-4"
+							style="display: inline-flex; align-items: center;"
+							(click)="closeModal()">
+				<app-icon icon="x"
+									width="20"
+									height="20"></app-icon>
+				{{ 'candidate.new.cancelBtn' | translate }}
+			</button>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<app-candidate-form [(model)]="model.candidate"
+												[isModalWindow]="isModalWindow"
+												[lockInput]="lockInput"
+												(isValidForm)="changeFormValidStatus('candidate', $event)"
+												[isEditMode]="true"></app-candidate-form>
+	</div>
+</div>

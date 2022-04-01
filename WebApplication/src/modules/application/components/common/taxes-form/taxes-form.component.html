@@ -1,0 +1,123 @@
+<ng-form>
+	<div *ngFor="let tax of model.taxes; let i = index;"
+			 class="multi-container">
+
+		<h5 class="mt-3">{{ (tax.type == taxType.educationTax ?
+			'application.new.taxes.educationTitle' :
+			'application.new.taxes.trainingTitle') | translate }}</h5>
+		<hr>
+
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-6">
+				<label class="d-inline-flex">
+					{{ 'application.new.taxes.accountHolder' | translate }}
+				</label>
+				<input #educationTaxAccountHolder="ngModel"
+							 type="text"
+							 name="educationTaxAccountHolder-{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="tax.accountHolder"
+							 [disabled]="!isEditMode"
+							 [required]="tax.invalidIban || tax.type == taxType.educationTax"
+							 minlength="8"
+							 maxlength="55">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-6">
+				<label class="d-inline-flex">
+					{{ 'application.new.taxes.iban' | translate }}
+				</label>
+
+				<input #educationTaxIban="ngModel"
+							 type="text"
+							 name="educationTaxIban-{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="tax.iban"
+							 [disabled]="!isEditMode"
+							 (blur)="getBankByIban(tax.iban, i)"
+							 (keypress)="validateIban($event, tax.iban)"
+							 [required]="tax.type == taxType.educationTax"
+							 [class.is-invalid]="tax.invalidIban"
+							 minlength="22"
+							 maxlength="28">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-2">
+				<label class="d-inline-flex">
+					{{ 'application.new.taxes.amount' | translate }}
+
+					<!-- <app-validation-error-message *ngIf="isEditMode && educationTaxAmount.invalid"
+																										class="ml-1"
+																										[control]="educationTaxAmount"
+																										[validationTexts]="validationTexts">
+											</app-validation-error-message> -->
+				</label>
+
+				<input #educationTaxAmount="ngModel"
+							 type="number"
+							 name="educationTaxAmount-{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="tax.amount"
+							 [disabled]="!isEditMode"
+							 [required]="tax.type == taxType.educationTax"
+							 min="100"
+							 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+							 maxlength="4">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-2">
+				<label class="d-inline-flex">
+					{{ 'application.new.taxes.currency' | translate }}
+				</label>
+
+				<app-async-select #educationTaxCurrencyType="ngModel"
+													name="educationTaxCurrencyType-{{i}}"
+													style="flex: 2;"
+													restUrl="CurrencyType/Select"
+													[(ngModel)]="tax.currencyType"
+													[disabled]="!isEditMode"
+													[required]="isEditMode && tax.type == taxType.educationTax"></app-async-select>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-2">
+				<label class="d-inline-flex">
+					{{ 'application.new.taxes.bic' | translate }}
+				</label>
+				<input #bic="ngModel"
+							 type="text"
+							 name="bic-{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="tax.bic"
+							 [readonly]="true"
+							 [required]="tax.type == taxType.educationTax">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-6">
+				<label class="d-inline-flex">
+					{{ 'application.new.taxes.bankName' | translate }}
+				</label>
+				<input #bank="ngModel"
+							 type="text"
+							 name="bank-{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="tax.bank"
+							 [readonly]="true"
+							 [required]="tax.type == taxType.educationTax"
+							 minlength="2"
+							 maxlength="35">
+			</div>
+
+			<div class="form-group col-sm-12">
+				<label>{{ 'application.new.taxes.additionalInfo' | translate }}</label>
+				<textarea class="form-control form-control-sm"
+									name="educationTaxAdditionalInfo-{{i}}"
+									rows="3"
+									[(ngModel)]="tax.additionalInfo"
+									[disabled]="!isEditMode"
+									maxlength="256"></textarea>
+			</div>
+		</div>
+	</div>
+</ng-form>

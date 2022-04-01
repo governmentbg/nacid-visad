@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg d-flex">
+  <div class="row">
+    <button class="navbar-toggler"
+            type="button"
+            [attr.aria-expanded]="!isCollapsed"
+            (click)="isCollapsed = !isCollapsed">
+      <app-icon icon="list"
+                width="30"
+                height="30"></app-icon>
+    </button>
+    <a routerLink=""
+       class="logo-link">
+      <img src="./../assets/nacid_logo.png"
+           style="position: absolute;">
+    </a>
+  </div>
+  <div class="collapse navbar-collapse"
+       [ngClass]="{'show': isCollapsed }">
+    <ul class="navbar-nav mr-auto main-menu">
+      <ng-container *ngFor="let menuItem of menuItems | filter: 'isVisible': true">
+        <li *ngIf="!menuItem.children?.length"
+            class="nav-item"
+            style="position: relative;">
+          <a class="d-flex nav-link header-item"
+             style="cursor: pointer;align-items: center; color: #ffffff;"
+             [routerLink]="menuItem.routerLink"
+             routerLinkActive="active-link">
+            <app-icon [icon]="menuItem.icon"
+                      style="margin-right: .35em;"></app-icon>
+            {{ menuItem.title }}
+          </a>
+        </li>
+
+        <li *ngIf="menuItem.children?.length"
+            ngbDropdown
+            (openChange)="menuItem.isOpen = !menuItem.isOpen"
+            class="nav-item"
+            style="position: relative;">
+          <a ngbDropdownToggle
+             routerLinkActive="active-link"
+             class="d-flex nav-link header-item"
+             [ngClass]="{'active-link-open': menuItem.isOpen }"
+             style="cursor: pointer;align-items: center; color: #ffffff;">
+            <app-icon [icon]="menuItem.icon"
+                      style="margin-right: .25em;"></app-icon>
+            {{ menuItem.title }}
+        <li ngbDropdownMenu
+            class="navi-item">
+          <a *ngFor="let dropdownItem of menuItem.children | filter: 'isVisible': true"
+             ngbDropdownItem
+             class="btn btn-sm dropdown-item"
+             [routerLink]="dropdownItem.routerLink">
+            <app-icon [icon]="dropdownItem.icon"
+                      class="d-inline-flex"
+                      style="margin-right: .25em;"></app-icon>
+            {{ dropdownItem.title }}
+          </a>
+        </li>
+        </a>
+        </li>
+      </ng-container>
+
+      <li class="nav-item"
+          style="position: relative;">
+        <a class="d-flex nav-link header-item"
+           [href]="filePath"
+           target="_blank"
+           style="cursor: pointer;align-items: center; color: #ffffff;"
+           title="{{ 'help.tooltip' | translate }}">
+          <app-icon icon="question-lg"
+                    class="d-inline-flex"></app-icon>
+          {{ 'help.title' | translate }}
+        </a>
+      </li>
+
+      <li class="nav-item"
+          style="position: relative;">
+        <a class="nav-link header-item user"
+           style="cursor: pointer;align-items: center; color: #ffffff;">
+          <app-user></app-user>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</nav>

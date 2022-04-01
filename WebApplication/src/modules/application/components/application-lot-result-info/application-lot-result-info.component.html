@@ -1,0 +1,20 @@
+<div class="d-flex">
+	<a *ngIf="model.type == resultTypes.certificate"
+		 [href]="model.attachedFilePath"
+		 target="_blank">
+		{{ !model.isSigned ? 'Подготвено удостоверение' : resultTypeLocalization[model.type] }}
+	</a>
+	<a *ngIf="model.type == resultTypes.rejection"
+		 [href]="model.attachedFilePath"
+		 target="_blank">
+		{{ resultTypeLocalization[model.type] }}
+	</a>
+
+	<div>
+		&nbsp;{{ 'application.lotResultInfo.certificateNumber' | translate }} {{ model.certificateNumber }}
+	</div>
+</div>
+<p *ngIf="model.note?.length"
+	 class="mb-0">
+	{{ model.note }}
+</p>

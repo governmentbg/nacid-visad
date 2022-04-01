@@ -1,0 +1,155 @@
+<div class="search-panel"
+		 style="padding: 3em; box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15)">
+	<label class="mb-4"
+				 style="font-size: 1.2em; font-weight: 500;">{{ 'candidate.search.header' | translate }}</label>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'candidate.search.country' | translate }}</label>
+			<app-async-select name="candidateCountry"
+												restUrl="Country/Select"
+												[(ngModel)]="filter.country"
+												(ngModelChange)="filter.countryId = $event.id"
+												[required]="true"></app-async-select>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-2">
+			<label>{{ 'candidate.search.birthDate' | translate }}</label>
+			<div class="input-group input-group-sm">
+				<input class="form-control"
+							 name="birthDate"
+							 ngbDatepicker
+							 [ngStyle]="{'border': birthDate.status == 'INVALID' ? '1px solid #dc3545' : null}"
+							 #birthDatepicker="ngbDatepicker"
+							 #birthDate="ngModel"
+							 placeholder="дд/мм/гггг"
+							 [(ngModel)]="filter.birthDate"
+							 (keypress)="sharedService.filterDate($event)"
+							 [minDate]="minYearDate"
+							 [maxDate]="maxYearDate"
+							 validDate
+							 required
+							 maxlength="10">
+				<div class="input-group-append">
+					<button class="btn btn-sm btn-outline-primary"
+									(click)="birthDatepicker.toggle()"
+									type="button">
+						<app-icon icon="calendar2-event"
+											width="12"
+											height="12"></app-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="float-md-left">
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-secondary"
+									awaitable
+									[click]="clearFilter"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon class="mr-1"
+											icon="trash"
+											width="13"
+											height="13"></app-icon>
+						{{ 'buttons.clear' | translate }}
+					</button>
+				</div>
+			</div>
+			<div class="float-md-right d-flex">
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-primary ml-3"
+									awaitable
+									[click]="search"
+									[clickParams]="[false]"
+									[clickContext]="this"
+									[disabled]="birthDate.status == 'INVALID' || filter.countryId == null">
+						<app-icon icon="search"
+											class="thicker-icon"
+											width="12"
+											height="12"></app-icon>
+						{{ 'buttons.search' | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<table *ngIf="showTable"
+			 class="table search-table table-bordered mt-4">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col">{{ 'candidate.table.candidateNames' | translate }}</th>
+			<th scope="col">{{ 'candidate.search.country' | translate }}</th>
+			<th scope="col">{{ 'candidate.table.birthPlace' | translate }}</th>
+			<th scope="col">{{ 'candidate.table.nationality' | translate }}</th>
+			<th scope="col"
+					style="width: 8%;">{{ 'candidate.table.details' | translate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngIf="!model.length">
+			<td colspan="5"
+					style="text-align: center;">
+				{{ 'candidate.table.noResults1' | translate }} <span style="font-weight: bold;">{{
+					candidateCountryNotFound?.name }}</span>
+				{{ 'candidate.table.noResults2' |
+				translate}} <span style="font-weight: bold;">{{ candidateBirthDateNotFound | date:'dd.MM.yyyy' }}</span>. {{
+				'candidate.table.noResults3' | translate }}
+				<a href="javascript:;"
+					 (click)="addNewCandidate()">{{ 'candidate.new.createBtn' | translate }}</a>?
+			</td>
+		</tr>
+		<tr *ngFor="let candidate of model">
+			<td>{{ candidate.candidatePart?.entity.firstName }} {{ candidate.candidatePart?.entity.lastName }}, {{
+				candidate.candidatePart?.entity.otherNames }}<br>
+				{{ candidate.candidatePart?.entity.firstNameCyrillic }} {{ candidate.candidatePart?.entity.lastNameCyrillic }},
+				{{ candidate.candidatePart?.entity.otherNamesCyrillic }}
+			</td>
+			<td>{{ candidate.candidatePart?.entity.country?.name }}
+				<span style="display: block;">{{ candidate.candidatePart?.entity.birthDate | date:'dd.MM.yyyy' }}</span>
+			</td>
+			<td>{{ candidate.candidatePart?.entity.birthPlace }}</td>
+			<td> {{ candidate.candidatePart?.entity.nationality?.name}}
+				<span *ngFor="let nationality of candidate.candidatePart?.entity.otherNationalities"
+							style="display: block;">{{nationality?.name}}</span>
+			</td>
+			<td class="preview">
+				<button class="btn btn-sm btn-outline-primary d-flex"
+								(click)="selectCandidate(candidate)">{{ 'buttons.choose' | translate}}
+				</button>
+			</td>
+		</tr>
+		<tr *ngIf="model.length > 0">
+			<td colspan="5"
+					style="text-align: center; font-weight: bold">
+				Лицето го няма в списъка,
+				<a href="javascript:;"
+					 (click)="addNewCandidate()"> искам да създам нов кандидат</a>.
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="d-flex justify-content-between">
+	<div>
+		<button *ngIf="canLoadMore"
+						type="button"
+						class="btn btn-sm btn-secondary"
+						(click)="loadMore()">
+			{{ 'buttons.moreResults' | translate }}
+		</button>
+	</div>
+
+	<div>
+		<p *ngIf="modelCounts > 0">Показани {{ modelCounts }} от общо {{ totalCounts }} записа</p>
+	</div>
+</div>

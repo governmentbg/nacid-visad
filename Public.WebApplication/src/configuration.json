@@ -1,0 +1,6 @@
+{
+    "urls": {},
+    "defaultUrl": "restUrl",
+    "restUrlFromAppOrigin": true,
+    "portalAlias": "visaDPortal"
+}

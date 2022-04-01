@@ -1,0 +1,54 @@
+<div class="form-control form-control-sm input-group"
+		 *ngIf="!showFileUrl"
+		 [class.control-disabled]="disabled"
+		 [class.control-required]="!disabled && required && !model?.key">
+	<a *ngIf="model?.name"
+		 [href]="fileUrl"
+		 target="_blank"
+		 style="cursor: pointer;"
+		 class="text-overflow">{{ model?.name }}</a>
+
+	<span *ngIf="!model?.key">{{ 'common.fileUpload' | translate }}</span>
+	<div class="input-group-append d-flex justify-content-center align-items-center"
+			 style="margin-left: auto; height: 100%;">
+		<app-icon *ngIf="model?.name && !disabled && !required"
+							icon="x"
+							(click)="deleteFile()"></app-icon>
+
+		<label class="btn btn-default"
+					 style="padding: 0; margin: 0;"
+					 [class.noevents]="disabled">
+			<app-icon *ngIf="!disabled"
+								icon="file-earmark-arrow-up-fill"
+								class="d-flex justify-content-center align-items-center"></app-icon>
+			<input type="file"
+						 (change)="uploadFile($event)"
+						 style="display: none;">
+		</label>
+	</div>
+</div>
+
+<div class="form-control form-control-sm input-group"
+		 *ngIf="showFileUrl"
+		 [class.control-disabled]="disabled"
+		 style="background-color: #e9ecef;"
+		 [class.control-required]="!disabled && required && !model?.key">
+	<a *ngIf="model?.name"
+		 [href]="fileUrl"
+		 target="_blank"
+		 style="cursor: pointer;"
+		 class="text-overflow">{{ model?.name }}</a>
+
+	<span *ngIf="!model?.key">{{ 'common.fileUpload' | translate }}</span>
+	<div class="input-group-append d-flex justify-content-center align-items-center"
+			 style="margin-left: auto; height: 100%;">
+
+		<label class="btn btn-default"
+					 style="padding: 0; margin: 0;"
+					 [class.noevents]="true">
+			<app-icon *ngIf="!showFileUrl"
+								icon="file-earmark-arrow-up-fill"
+								class="d-flex justify-content-center align-items-center"></app-icon>
+		</label>
+	</div>
+</div>

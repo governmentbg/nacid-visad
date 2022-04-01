@@ -1,0 +1,14 @@
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+@Component({
+  selector: 'app-parts-edit-warning-modal',
+  templateUrl: './parts-edit-warning-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class PartsEditWarningModalComponent {
+  @Input() partsInEditMode: string[] = [];
+
+  constructor(public modal: NgbActiveModal) { }
+
+}

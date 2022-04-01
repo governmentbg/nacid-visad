@@ -1,0 +1,102 @@
+footer{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.default-a {
+  color: #135496;
+  text-decoration: none;
+}
+
+.default-a:hover {
+  color: #ff9800;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a {
+  color: white;
+  font-weight: normal;
+}
+
+a::after {
+  display: none;
+}
+
+a:hover {
+  color: #ff9800;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.show-about{
+  cursor: pointer;
+}
+
+.show-about:hover {
+  color: #ff9800;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+h6 {
+  font-weight: bold;
+  color: #ff9800;
+}
+
+.flex-column {
+  line-height: 36px;
+  margin-top: 36px;
+}
+
+.scroll-up-row {
+  height: 44px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(0%, -50%);
+}
+
+.scroll-up {
+  height: 44px;
+  width: 44px;
+  border-radius: 8px;
+  border: none;
+}
+
+.scroll-up:hover {
+  background-color: #ff9800 !important;
+}
+
+#footer-links {
+  position: relative;
+  padding: 35px 0px 25px 0px;
+  width: 100%;
+  color: white;
+  background-color: #005671;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 992px) {
+  .hide {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 616px) {
+  .align-self-center {
+    padding-top: 32px;
+  }
+}

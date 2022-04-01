@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Use some dev server for development of css and images. They must be hosted! -->
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: 'Times New Roman';
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        position: relative;
+        padding: 2em;
+      }
+
+      .uppercase {
+        text-transform: uppercase;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+	  
+	  table {
+		width: 100%;
+		color: #212529;
+		border-collapse: collapse;
+	  }
+	  
+	  table > thead > tr > th,
+	  table > tbody > tr > td {
+		border: 1px solid #000000;
+	  }
+	  
+	  td {
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+	  }
+	  
+	  @page {
+		size: landscape;
+	  }
+
+    </style>
+
+    <div>
+      <div style="margin-bottom: 2em;">
+        <h1 class="uppercase">Кандидати</h1>
+      </div>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 15%;">Име</th>
+              <th style="width: 20%;">Гражданство</th>
+              <th style="width: 25%;">Роден в</th>
+			  <th style="width: 25%;">Ел. поща и телефон</th>
+			  <th style="width: 15%;">Бр. заявления</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each Items}}
+            <tr>
+              <td>{{Name}}</td>
+              <td>{{Nationality}}</td>
+              <td>{{Country}}<br>{{BirthPlace}}, {{ConvertedBirthDate}}</td>
+			  <td>{{Mail}}<br>{{Phone}}</td>
+			  <td>{{ApplicationsCount}}</td>
+            </tr>
+			{{/each}}
+          </tbody>
+        </table>
+      </div>
+  </body>
+
+</html>

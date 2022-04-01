@@ -1,0 +1,88 @@
+<ng-form>
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<label class="d-inline-flex align-items-center">
+				{{ 'application.new.applicant.institutionName' | translate }}
+			</label>
+
+			<app-async-select #institutionType="ngModel"
+												name="institution"
+												restUrl="Institution/University"
+												[(ngModel)]="model.institution"
+												[disabled]="!isEditMode || canChooseInstitution"
+												[required]="isEditMode"></app-async-select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-4">
+			<label class="d-inline-flex">
+				{{ 'application.new.firstname' | translate }}
+
+			</label>
+			<input #firstName="ngModel"
+						 type="text"
+						 name="firstName"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.firstName"
+						 [disabled]="true"
+						 required>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'application.new.applicant.middlename' | translate }}</label>
+			<input type="text"
+						 name="middleName"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.middleName"
+						 [disabled]="!isEditMode">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label class="d-inline-flex">
+				{{ 'application.new.lastname' | translate }}
+			</label>
+
+			<input #lastName="ngModel"
+						 type="text"
+						 name="lastName"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.lastName"
+						 [disabled]="true"
+						 required>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'application.new.applicant.position' | translate }}</label>
+			<input type="text"
+						 name="position"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.position"
+						 [disabled]="true"
+						 required>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'application.new.telephone' | translate }}</label>
+			<input type="text"
+						 name="phone"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.phone"
+						 [disabled]="true">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label class="d-inline-flex">
+				{{ 'application.new.email' | translate }}
+			</label>
+
+			<input #mail="ngModel"
+						 type="email"
+						 name="mail"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.mail"
+						 [disabled]="true"
+						 required
+						 [pattern]="emailRegExp">
+		</div>
+	</div>
+</ng-form>

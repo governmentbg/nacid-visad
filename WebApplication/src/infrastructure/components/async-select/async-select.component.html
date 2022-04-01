@@ -1,0 +1,60 @@
+<div ngbDropdown
+		 #dropdown="ngbDropdown">
+	<div ngbDropdownToggle
+			 class="d-flex justify-content-between align-items-center form-control form-control-sm"
+			 [ngClass]="{'selected-item-focus': selectedItem && enableBorder}"
+			 [class.disabled]="disabled"
+			 [class.required]="!disabled && required && !selectedItem">
+
+		<div class="ellipsis pl-0 pr-1">
+			<ng-container [ngTemplateOutlet]="selectedItemTemplate || defaultSelectedItemTemplate"
+										[ngTemplateOutletContext]="{ $implicit: displayValue }">
+			</ng-container>
+		</div>
+
+		<span class="select-dropdown-indicator"></span>
+	</div>
+
+	<div ngbDropdownMenu
+			 #dropdownMenu
+			 class="select-dropdown-menu"
+			 style="position: relative;"
+			 (wheel)="handleScroll($event)">
+
+		<div *ngIf="collection.length > 6 || searchControl.value.length > 0"
+				 class="search">
+			<input type="text"
+						 myAutofocus
+						 #searchField
+						 [formControl]="searchControl"
+						 placeholder="{{ placeholder || 'Търсене' }}" />
+			<app-icon icon="search"></app-icon>
+		</div>
+
+		<div *ngIf="!hasResult">
+			<button ngbDropdownItem
+							class="dropdown-item ellipsis">Няма намерени резултати</button>
+		</div>
+
+		<button *ngFor="let item of collection"
+						ngbDropdownItem
+						class="dropdown-item ellipsis"
+						[class.selected]="isSelectedItem(item)"
+						(click)="selectItem(item)"
+						[title]="item?.name">
+			<ng-container [ngTemplateOutlet]="dropdownItemTemplate || defaultDropdownItemTemplate"
+										[ngTemplateOutletContext]="{ $implicit: item }">
+			</ng-container>
+		</button>
+	</div>
+</div>
+
+<ng-template #defaultDropdownItemTemplate
+						 let-item>
+	{{ item.name }}
+</ng-template>
+
+<ng-template #defaultSelectedItemTemplate
+						 let-value>
+	{{ value || placeholder }}
+</ng-template>

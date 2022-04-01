@@ -1,0 +1,8 @@
+<button *ngIf="isBtnVisible"
+				type="button"
+				class="btn btn-sm btn-primary d-flex"
+				(click)="scrollToTop()">
+	<app-icon icon="chevron-up"
+						class="thicker-icon mr-1"></app-icon>
+	<span>{{ 'Нагоре' | uppercase }}</span>
+</button>

@@ -1,0 +1,18 @@
+.control-disabled {
+  background-color: #EEEEEE;
+}
+
+.control-required {
+  border: 1px solid #dc3545;
+}
+
+.noevents {
+  pointer-events: none;
+}
+
+a.text-overflow {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 80%;
+}

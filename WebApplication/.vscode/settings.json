@@ -1,0 +1,33 @@
+{
+	"css.lint.duplicateProperties": "warning",
+	"css.lint.ieHack": "warning",
+	"css.lint.important": "warning",
+	"css.lint.universalSelector": "warning",
+	"css.lint.zeroUnits": "warning",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true,
+		"source.organizeImports": true,
+	},
+	"editor.detectIndentation": true,
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true,
+	"html.format.endWithNewline": true,
+	"html.format.indentInnerHtml": true,
+	"html.format.maxPreserveNewLines": 1,
+	"html.format.wrapAttributes": "force-aligned",
+	"npm.enableScriptExplorer": true,
+	"search.exclude": {
+		"**/dist": true,
+		"**/node_modules": true
+	},
+	"tslint.ignoreDefinitionFiles": true,
+	"tslint.jsEnable": true,
+	"tslint.suppressWhileTypeErrorsPresent": true,
+	"typescript.preferences.quoteStyle": "single",
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.updateImportsOnFileMove.enabled": "always"
+}

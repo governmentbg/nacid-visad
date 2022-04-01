@@ -1,0 +1,11 @@
+a {
+	color: var(--visad-primary-color);
+}
+
+a:hover {
+	color: #007bff;
+}
+
+.nav-link.active {
+	font-weight: 500;
+}

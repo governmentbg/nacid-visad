@@ -1,0 +1,38 @@
+{
+  "common": {
+    "title_nacid": "NACID",
+    "title_nacid_first": "The National Centre for",
+    "title_nacid_second": "Information and Documentation",
+    "feedback_link": "Feedback",
+    "title_visaD_header": "Register Visa D",
+    "title_visaD": "Certificate register Visa D",
+    "footer_info": "The project is funded by the Operational Program \"Good Governance\", co-financed by the European Union through the European Social Fund in implementation of project BG05SFOP001-1.017 Creation, upgrading and unification of electronic registers of NACID in the field of higher education",
+    "mon": "Ministry of Education and Science",
+    "nacid": "The National Centre for Information and Documentation",
+    "nacid_abbr": "Nacid",
+    "nacid_Contacts": "Contacts",
+    "loading_Indicator": "Please, wait...",
+    "invalidCode": "Invalid code",
+    "applicationAnnuled": "The document has been revoked",
+    "policy": "Privacy policy",
+    "rights_reserved": "\u00a0All\u00a0rights\u00a0reserved",
+    "about": "About"
+  },
+  "application": {
+    "verification_title": "Certificate verification",
+    "info_first": "In this section of the portal „Portal Visa D“ you have the opportunity to check an already issued certificate. To do this, you need to enter the 8-character code (ID) of the certificate, which you can find at the end of the paper / electronic application, in the",
+    "info_second": "„Verification code“",
+    "info_third": "and press the „Check“ button.",
+    "check": "Verification code:",
+    "check_btn": "Check"
+  },
+  "eAuthentication": {
+    "login": "Log in with e-Auth",
+    "logout": "Log out",
+    "continue": "Continue",
+    "message": "After clicking the button \"Continue\" you will be redirected to the eAuthentication website. There you have to choose the preffered for you metod for authentication."
+  },
+  "feedback": {
+    "title": "Feedback"
+  }
+}

@@ -1,0 +1,470 @@
+{
+	"help": {
+		"title": "Помощ",
+		"tooltip": "Ръководство за потребители"
+	},
+	"user": {
+		"repeatable": {
+			"username": "Потребителско име",
+			"email": "Електронна поща",
+			"phone": "Телефон",
+			"role": "Вид потребител",
+			"password": "Парола",
+			"passwordAgain": "Въведете парола повторно",
+			"actions": "Детайли"
+		},
+		"tableUsers": {
+			"names": "Имена",
+			"orgranizationName": "Организация",
+			"activeStatus": "Статус",
+			"noResults": "Няма намерени резултати по зададените критерии.",
+			"contacts": "Телефон и имейл"
+		},
+		"search": {
+			"status": "Статус",
+			"userStatus": {
+				"active": "Активен",
+				"inactive": "Неактивиран",
+				"deactivated": "Деактивиран",
+				"all": "Всички"
+			}
+		},
+		"userInfo": {
+			"titleCreate": "Създаване на нов потребител",
+			"titleEdit": "Данни на потребител",
+			"firstname": "Първо име",
+			"middlename": "Презиме",
+			"lastname": "Фамилия",
+			"institutionName": "Висше училище или научна организация",
+			"position": "Длъжност",
+			"activate": "Активирай потребителя",
+			"deactivate": "Деактивирай потребителя",
+			"emailUsername": "Електронна поща (потребителско име)",
+			"inactive": "Генериране на нов линк",
+			"lastName": "Фамилия"
+		},
+		"changePassword": {
+			"title": "Промяна на парола",
+			"oldPassword": "Стара парола",
+			"newPassword": "Нова парола",
+			"newPasswordAgain": "Въведете новата парола повторно",
+			"changeButton": "Промени"
+		},
+		"activatePassword": {
+			"title": "Активиране на парола",
+			"activateButton": "Активирай"
+		},
+		"forgottenPassword": {
+			"title": "Забравена парола"
+		},
+		"recoveryPassword": {
+			"title": "Смяна на парола"
+		},
+		"login": {
+			"title": "Вход в регистъра",
+			"loginButton": "Вход",
+			"forgottenPassword": "Забравена парола",
+			"invalidCredentials": "Невалидно потребителско име или парола!",
+			"deactivated": "Потребителят е деактивиран"
+		},
+		"unauthorizeInfo": {
+			"ipAddress": "IP адрес:",
+			"date": "Дата:",
+			"hour": "Час:"
+		}
+	},
+	"application": {
+		"partEditWarning": "Действието не може да се извърши, защото не са запазени промените по следните обстоятелства:",
+		"lotHistoryTitle": "История на промените",
+		"commitHistory": {
+			"candidateName": "Име на кандидат",
+			"status": "Статус",
+			"createDate": "Дата",
+			"number": "Номер",
+			"actions": "Детайли",
+			"applicantName": "Служител",
+			"changeStateDescription": "Основание за връщане"
+		},
+		"candidateCommit": {
+			"changeBtn": "Промени"
+		},
+		"lotResultInfo": {
+			"procedureResult": "Процедурата има краен резултат:",
+			"certificateNumber": "№:",
+			"signBtn": "Подпиши",
+			"annulment": "Анулиране",
+			"refuseSign": "Откажи подписване"
+		},
+		"lotResultModal": {
+			"title": "Създаване на удостоверение / отказ",
+			"certificate": "Удостоверение",
+			"rejection": "Отказ",
+			"certificateNumber": "№ на",
+			"attachedFile": "Прикачен файл",
+			"note": "Допълнителен текст за включване в удостоверението",
+			"rejectionReason": "Мотив за отказ",
+			"saveBtn": "Приключи",
+			"regulation": "Наредба"
+		},
+		"search": {
+			"candidateName": "Име на кандидат",
+			"certificateNumber": "№ на удостоверение/отказ",
+			"applicationResult": {
+				"endResult": "Статус на заявление",
+				"all": "Всички",
+				"certificate": "Издадено удостоверение",
+				"rejection": "Отказано вписване",
+				"actual": "Изпратено за вписване",
+				"modification": "Върнато за редакция",
+				"deleted": "Изтрито",
+				"forSign": "За подпис",
+				"annulled": "Анулирано",
+				"refusedSign": "Отказано подписване"
+			},
+			"orgranizationName": "Висше училище или научна организация",
+			"registerNumber": "№ на заявление",
+			"nationality": "Гражданство",
+			"country": "Държава на раждане",
+			"birthPlace": "Място на раждане",
+			"birthdayFrom": "Роден след",
+			"birthdayTo": "Роден преди",
+			"specialty": "Специалност",
+			"academicDegree": "ОКС/ОНС",
+			"faculty": "Основно звено, в което ще се проведе обучението",
+			"department": "Департамент, в който ще се проведе подготовката"
+		},
+		"table": {
+			"registerNumber": "Номер",
+			"candidateNames": "Имена",
+			"nationalities": "Гражданства",
+			"orgranizationName": "Висше училище",
+			"endResult": "Статус",
+			"noResults": "Няма намерени резултати по зададените критерии.",
+			"mail": "Ел. поща",
+			"country": "Роден в",
+			"speciality": "Специалност",
+			"action": "Детайли",
+			"forSign": "За подпис",
+			"draft": "Чернова"
+		},
+		"new": {
+			"title": "Ново заявление",
+			"telephone": "Телефон",
+			"email": "Електронна поща",
+			"firstname": "Име",
+			"lastname": "Фамилия",
+			"applicant": {
+				"title": "Заявител",
+				"institutionName": "Наименование на висше училище",
+				"middlename": "Презиме",
+				"position": "Заемана длъжност"
+			},
+			"candidate": {
+				"title": "Лични данни на кандидата",
+				"passportNumber": "Номер на паспорт",
+				"passportValidUntil": "Валиден до (паспорт)",
+				"firstname": "Първо име (по паспорт на латиница)",
+				"middlename": "Фамилия (по паспорт на латиница)",
+				"otherNames": "Други имена (по паспорт на латиница)",
+				"birthDate": "Дата на раждане",
+				"birthPlace": "Място на раждане (на латиница)",
+				"country": "Държава на раждане",
+				"nationality": "Гражданство, с което кандидатства",
+				"firstnameCyrillic": "Първо име (на кирилица)",
+				"lastnameCyrillic": "Фамилия (на кирилица)",
+				"otherNamesCyrillic": "Други имена (на кирилица)",
+				"otherNationality": "Друго гражданство",
+				"addOtherNationality": "Добави друго гражданство",
+				"image": "Снимка на кандидата",
+				"passport": "Копие на паспорт"
+			},
+			"previousApplication": {
+				"title": "Предходни удостоверения",
+				"previousApplicationYear": "Година на издаване",
+				"hasPreviousApplication": "Лицето има издадено удостоверение за прием за обучение за минал период",
+				"previousApplicationRegisterNumber": "Номер на предходно удостоверение"
+			},
+			"diploma": {
+				"title": "Дипломи",
+				"diplomaNumber": "Номер на диплома",
+				"dateOfIssue": "Дата на издаване",
+				"country": "Държава на издаване на диплома",
+				"city": "Град",
+				"organizationName": "Учебно заведение",
+				"removeDiploma": "Изтрий диплома",
+				"addDiploma": "Добави диплома",
+				"diplomaType": "Образователна степен",
+				"rectorDecision": "Решение на ректор",
+				"copyOfDiploma": "Копие на диплома",
+				"nacidRecommendation": "Препоръка от НАЦИД",
+				"attachedFile": "Прикачен документ",
+				"description": "Пояснения относно балобразуващите предмети"
+			},
+			"documents": {
+				"title": "Други документи",
+				"fileType": "Вид документ",
+				"attachedFile": "Копие на документ",
+				"description": "Допълнителна информация, описания, пояснения",
+				"removeFile": "Изтрий прикачения документ",
+				"addFile": "Добави друг документ",
+				"checkFiles": "Потвържавам, че приложените сканирани документи са идентични с хартиените им оригинали",
+				"noEducation": "Първо изберете данни за обучението",
+				"documentDescription": "Описание на документа"
+			},
+			"education": {
+				"title": "Данни за обучението",
+				"faculty": "Основно звено",
+				"speciality": "Специалност",
+				"year": "Учебна година",
+				"academicDegree": "ОКС/ОНС",
+				"educationFormType": "Форма",
+				"duration": "Срок на обучение в години",
+				"durationType": "Вид срок на обучение",
+				"tooltipDuration": "Срок на обучение по утвърден учебен план",
+				"tooltipDurationType": "Вид срок на обучение по утвърден учебен план",
+				"tooltipAcademicDegree": "Образователно-квалификационна степен/Образователно-научна степен",
+				"language": "Език на обучение"
+			},
+			"representative": {
+				"title": "Представител",
+				"legalFirstName": "Представител",
+				"foreignerFirstName": "Имена на представител",
+				"individual": "Физическо лице",
+				"legal": "Юридическо лице",
+				"foreigner": "Чуждестранно лице",
+				"individualIdentificationCode": "ЕГН",
+				"legalEntityIdentificationCode": "ЕИК/БУЛСТАТ",
+				"foreignerIdentificationCode": "ЛИН/ЛНЧ/ID",
+				"mail": "Електронна поща",
+				"phone": "Телефон",
+				"notes": "Бележки (адрес и други)",
+				"checkboxLabels": {
+					"candidateSubmits": "Кандидатът подава заявлението:",
+					"personally": "лично",
+					"byRepresentative": "чрез представител"
+				},
+				"requestDocument": "Молба заявление за издаване на удостоверение",
+				"submissionDate": "Дата на подаване",
+				"letterOfAttorney": "Пълномощно"
+			},
+			"taxes": {
+				"titleTaxes": "Такси",
+				"taxType": "Вид такса",
+				"amount": "Сума",
+				"currency": "Валута",
+				"additionalInfo": "Допълнителна информация",
+				"removeTax": "Премахни такса",
+				"addTax": "Добави такса",
+				"educationTitle": "Такса за обучение",
+				"trainingTitle": "Такса за специализирана и езикова подготовка",
+				"iban": "IBAN",
+				"bic": "BIC",
+				"accountHolder": "Титуляр",
+				"bankName": "Банка",
+				"department": "Получател"
+			},
+			"training": {
+				"titleTraining": "Езикова и специализирана подготовка",
+				"title": "Ниво на владеене на език",
+				"language": "Език",
+				"reading": "Четене",
+				"writing": "Писане",
+				"speaking": "Говорене",
+				"languageDepartment": "Езикова или специализирана подготовка и департамент, в който ще се проведе",
+				"specialTrainingType": "Вид подготовка",
+				"duration": "Продължителност в месеци",
+				"specialTrainingDurationType": "Вид продължителност",
+				"removeSpecialTraining": "Премахни подготовка",
+				"addSpecialTraining": "Добави подготовка",
+				"tooltipLanguageDuration": "Продължителност на езиковата подготовка",
+				"tooltipSpecialDuartion": "Продължителност на специализираната подготовка",
+				"tooltipType": "Вид продължителност на подготовката",
+				"addLanguageBtn": "Добави език",
+				"trainingLanguageDocument": "Документ за владеене на език"
+			},
+			"medicalCertificate": {
+				"title": "Медицинско свидетелство",
+				"dateOfIssue": "Дата на издаване"
+			}
+		}
+	},
+	"candidate": {
+		"search": {
+			"name": "Име на кандидат",
+			"country": "Държава на раждане",
+			"birthDate": "Дата на раждане",
+			"birthPlace": "Място на раждане",
+			"birthdayFrom": "Роден след",
+			"birthdayTo": "Роден преди",
+			"header": "Моля, изберете държава и дата на раждане на кандидата",
+			"nationality": "Гражданство",
+			"email": "Електронна поща",
+			"phone": "Телефон",
+			"passportNumber": "Номер на паспорт"
+		},
+		"table": {
+			"candidateNames": "Име",
+			"nationality": "Гражданства",
+			"birthPlace": "Място на раждане",
+			"birthDate": "Дата на раждане",
+			"noResults": "Няма намерени резултати.",
+			"noResults1": "Няма намерено лице с държава на раждане ",
+			"noResults2": "и дата на раждане",
+			"noResults3": "Искате ли да",
+			"noApplications": "Няма вписани заявления.",
+			"bornIn": "Роден в",
+			"emailAndPhone": "Ел. поща и телефон",
+			"applicationsCount": "Бр. заявления",
+			"details": "Детайли"
+		},
+		"applicationsTable": {
+			"registerNumber": "Номер",
+			"organizationName": "Учебно заведение",
+			"speciality": "Специалност",
+			"representative": "Представител",
+			"details": "Детайли",
+			"status": "Статус"
+		},
+		"new": {
+			"title": "Нов кандидат",
+			"saveBtn": "Създай",
+			"saveCandidate": "Създай кандидат",
+			"cancelBtn": "Затвори",
+			"imgUpload": "Прикачи снимка",
+			"createBtn": "създадете нов кандидат"
+		},
+		"commit": {
+			"title": "Лични данни на кандидата",
+			"lotHistoryTitle": "История на промените"
+		},
+		"commitHistory": {
+			"candidateName": "Име на кандидат",
+			"status": "Статус",
+			"createDate": "Дата на редакция",
+			"number": "Номер",
+			"actions": "Детайли",
+			"mail": "Ел. поща",
+			"creatorUser": "Редактирано от",
+			"description": "Описание"
+		}
+	},
+	"nomenclature": {
+		"title": "Наименование",
+		"isActive": "Активен",
+		"add": "Добави",
+		"description": "Описание",
+		"file": "Файл",
+		"alias": "Псевдоним",
+		"schoolYear": {
+			"fromYear": "От",
+			"toYear": "До"
+		},
+		"diplomaType": {
+			"NacidVerification": "Проверена от НАЦИД"
+		},
+		"applicationFileType": {
+			"hasDate": "Поле за дата на издаване"
+		},
+		"cannotDelete": "Стойността се използва и не може да бъде изтрита. За да не се вижда от потребителите може да се деактивира."
+	},
+	"buttons": {
+		"search": "Търсене",
+		"clear": "Изчисти филтъра",
+		"save": "Запази",
+		"cancel": "Откажи",
+		"cancelEdit": "Откажи промените",
+		"moreResults": "Покажи още",
+		"edit": "Редактирай",
+		"send": "Изпрати",
+		"back": "Назад",
+		"change": "Смяна",
+		"newApplication": "Ново заявление",
+		"advancedSearch": "Разширено търсене",
+		"enter": "Изпрати заявлението",
+		"cancelModification": "Откажи промените",
+		"startModification": "Редактирай",
+		"close": "Затвори",
+		"addResult": "За издаване",
+		"approveApplication": "Одобри заявлението",
+		"lotActions": "Действия по заявлението",
+		"delete": "Изтрий",
+		"exit": "Изход",
+		"changePassword": "Промяна на парола",
+		"continue": "Да, искам",
+		"export": "Експорт",
+		"excelExport": "Excel",
+		"pdfExport": "PDF",
+		"newUser": "Нов потребител",
+		"newCandidate": "Нов кандидат",
+		"notAdvancedSearch": "Опростено търсене",
+		"candidateLotActions": "Действия по партидата",
+		"saveCandidateData": "Запази промените",
+		"editCandidateData": "Редакция на лични данни",
+		"choose": "Избери",
+		"addDocument": "Добави документ"
+	},
+	"loadingIndicator": "Моля, изчакайте...",
+	"common": {
+		"nacid": "НАЦИД",
+		"visaD": "Регистър Виза \"D\"",
+		"fileUpload": "Няма прикачено копие…"
+	},
+	"toastr": {
+		"forbidden": "Вие нямате достъп до тази страница",
+		"userEditSuccess": "Вие успешно редактирахте данните",
+		"userChangePasswordSuccess": "Вие успешно редактирахте данните",
+		"userPasswordsDoesNotMatch": "Паролите не съвпадат",
+		"userInvalidOldPassword": "Невалидна стара парола!",
+		"userChangePasswordNewPasswordMismatch": "Двете пароли се различават!",
+		"userEmailTaken": "Имейлът вече е използван",
+		"userActivatePassword": "Успешно активиран профил",
+		"userLinkForActivation": "На електронната поща е изпратен линк за възстановяване на забравена парола.",
+		"userInvalidEmail": "Невалиден адрес на електронната поща!",
+		"userDeactivated": "Несъществуващ или деактивиран потребител.",
+		"userChangePassword": "Успешно сменена парола",
+		"userActivationLink": "Успешно е изпратен повторен имейл за активация на потребител",
+		"userActivationTokenAlreadyUsed": "Линкът вече е използван",
+		"userTokenExpired": "Срокът за използване на линкът е изтекъл"
+	},
+	"validations": {
+		"email": "Моля, попълнете валиден адрес на Електронна поща",
+		"password": "Изисква 1 цифра, главна и малка буква"
+	},
+	"searchTable": {
+		"result1": "Показани общо ",
+		"result2": "резултата"
+	},
+	"report": {
+		"reportType": {
+			"type": "Вид справка",
+			"defaultReport": "Общ брой заявления",
+			"reportByInstitution": "По висше училище",
+			"reportByNationality": "По гражданство",
+			"reportByCountry": "По месторождение",
+			"reportByEducationalQualification": "По ОКС",
+			"reportByCandidateWithMoreThanOneCertificate": "С повече от 1 издадено удостоверение"
+		},
+		"schoolYear": "Учебна година",
+		"institution": "Висше училище",
+		"nationality": "Гражданство",
+		"country": "Държава на раждане",
+		"educationalQualification": "ОКС",
+		"generateReport": "Генерирай справка",
+		"reportDate": "Дата на справката",
+		"table": {
+			"nationality": "Гражданство",
+			"country": "Месторождение",
+			"educationalQualification": "ОКС",
+			"institution": "Висше училище",
+			"pendingCommits": "Изпратени за разглеждане",
+			"modificationCommits": "Върнати за редакция",
+			"forSignCommits": "За подписване",
+			"certificateCommits": "Издадени удостоверения",
+			"rejectedCommits": "Издадени откази",
+			"annulledCommits": "Анулирани удостоверения",
+			"candidateName": "Име",
+			"candidateBirthPlace": "Роден в"
+		},
+		"reportCounts": "Брой записи"
+	}
+}

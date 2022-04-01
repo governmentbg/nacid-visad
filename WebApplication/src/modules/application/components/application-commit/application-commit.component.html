@@ -1,0 +1,256 @@
+<ng-container *ngIf="model.lotResult.type == resultType.certificate || model.lotResult.type == resultType.rejection">
+  <app-application-lot-result-info *ngIf="!model.lotResult.isSigned && !isUniversity"
+                                   class="mt-3 mb-3"
+                                   [model]="model.lotResult"></app-application-lot-result-info>
+
+  <app-application-lot-result-info *ngIf="model.lotResult.isSigned"
+                                   class="mt-3 mb-3"
+                                   [model]="model.lotResult"></app-application-lot-result-info>
+</ng-container>
+
+<div class="d-flex mb-2"
+     style="align-items: baseline;">
+
+  <ng-container *ngIf="model.state == commitStates.history || model.state == commitStates.actualWithModification "
+                style="display: inline-flex; align-items: baseline;">
+    <button type="button"
+            class="btn btn-sm btn-primary mb-4"
+            (click)="backClicked()">
+      <app-icon icon="chevron-left"
+                class="thicker-icon d-inline-flex"
+                width="12"
+                height="12"></app-icon>
+      {{ 'buttons.back' | translate}}
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="model.state == commitStates.actual
+  || model.state == commitStates.modification
+  || model.state == commitStates.deleted
+  || model.state == commitStates.approved
+  || model.state == commitStates.refusedSign
+  || model.state == commitStates.annulled">
+    <button type="button"
+            class="btn btn-sm btn-primary mb-4"
+            (click)="goToSearch()">
+      <app-icon icon="chevron-left"
+                class="thicker-icon d-inline-flex"
+                width="12"
+                height="12"></app-icon>
+      {{ 'buttons.back' | translate}}
+    </button>
+  </ng-container>
+
+  <div style="margin-left: auto;">
+    <button *ngIf="(model.lotResult.type == resultType.certificate || model.lotResult.type == resultType.rejection) && canSign"
+            class="btn btn-sm btn-primary"
+            (click)="sign()">
+      {{ 'application.lotResultInfo.signBtn' | translate }}
+    </button>
+
+    <button *ngIf="(model.lotResult.type == resultType.certificate || model.lotResult.type == resultType.rejection) && isSigner && model.lotResult.isSigned"
+            class="btn btn-sm btn-danger ml-3"
+            (click)="annulment()">
+      {{ 'application.lotResultInfo.annulment' | translate }}
+    </button>
+
+    <button *ngIf="(model.lotResult.type == resultType.certificate || model.lotResult.type == resultType.rejection) && isSigner && !model.lotResult.isSigned"
+            class="btn btn-sm btn-danger ml-3"
+            (click)="refuseSign()">
+      {{ 'application.lotResultInfo.refuseSign' | translate }}
+    </button>
+
+    <button *ngIf="(model.state === commitStates.actual || model.state === commitStates.refusedSign) && (model.lotResult.type == resultType.actual || model.lotResult.type == resultType.refusedSign) && canApprove"
+            class="btn btn-sm btn-success"
+            (click)="addResult()">
+      {{ 'buttons.addResult' | translate }}
+    </button>
+
+    <ng-container
+                  *ngIf="actions?.length > 1 && (model.lotResult.type != resultType.certificate && model.lotResult.type != resultType.rejection)">
+      <button *ngFor="let action of actions"
+              class="btn btn-sm ml-3"
+              [ngClass]="action.btnClass"
+              (click)="action.action()">
+        {{ action.name}}
+      </button>
+    </ng-container>
+
+    <div *ngIf="actions?.length < 2 && (model.lotResult.type != resultType.certificate && model.lotResult.type != resultType.rejection) && !isUniversity"
+         style="display: inline-block;">
+      <button *ngFor="let action of actions"
+              class="btn btn-sm ml-3"
+              [ngClass]="action.btnClass"
+              type="button"
+              (click)="action.action()">
+        {{ action.name}}
+      </button>
+    </div>
+
+    <a *ngIf="model.state !== commitStates.history && model.state !== commitStates.actualWithModification && model.hasOtherCommits"
+       class="btn btn-sm btn-primary ml-3"
+       style="display: inline-flex; align-items: center;"
+       [routerLink]="['/application', 'lot', model.lotId, 'history']">
+      {{ 'application.lotHistoryTitle' | translate }}
+    </a>
+
+  </div>
+</div>
+
+<div style="display: inline-flex; align-items: baseline;"
+     *ngIf="model.lotResult.type != resultType.certificate && model.lotResult.type != resultType.rejection && model.state != commitStates.history && model.state != commitStates.actualWithModification">
+  <p style="font-weight: bold;">Текущ статус: &nbsp;</p>
+  <h6 style="color: red; font-weight: bold;">
+    {{ header }}
+  </h6>
+  <ng-container
+                *ngIf="model.changeStateDescription != null && model.changeStateDescription != '' && model.changeStateDescription != 'undefined'
+                && (model.state == commitStates.deleted || model.state == commitStates.modification || model.state == commitStates.annulled || model.state == commitStates.refusedSign)">
+    &nbsp;(<p
+       style="width:400px; max-width: fit-content; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: red;">
+      {{model.changeStateDescription}}</p><span class="d-flex">
+      <app-help-tooltip class="ml-1"
+                        [tooltipText]="model.changeStateDescription">
+      </app-help-tooltip>)
+    </span>
+  </ng-container>
+</div>
+
+<ng-container *ngIf="!isUniversity">
+  <app-part-panel #applicantPart
+                  class="mt-3"
+                  header="{{ 'application.new.applicant.title' | translate }}"
+                  partName="applicantPart"
+                  [(model)]="model.applicantPart"
+                  [commitState]="model.state">
+    <app-applicant-form [(model)]="model.applicantPart.entity"
+                        (isValidForm)="applicantPart.hasValidData = $event"
+                        [isEditMode]="applicantPart.isEditMode"></app-applicant-form>
+  </app-part-panel>
+</ng-container>
+
+<app-application-candidate-commit class="d-block mt-3"
+                                  [model]="model.candidateCommit"
+                                  [applicationCommitState]="model.state"
+                                  (candidateCommitChanged)="model.candidateCommitId = $event"
+                                  [canEdit]="isUniversity"
+                                  [applicationCommitId]="model.id">
+</app-application-candidate-commit>
+
+<app-part-panel #previousApplicationPart
+                class="mt-3"
+                style="display: block;"
+                header="{{ 'application.new.previousApplication.title' | translate }}"
+                partName="previousApplicationPart"
+                [(model)]="model.previousApplicationPart"
+                [commitState]="model.state"
+                [showEditButton]="model.previousApplicationPart.entity.previousApplicationLotId == null ? true : false">
+  <app-previous-application-form [(model)]="model.previousApplicationPart.entity"
+                                 [lotId]="model.previousApplicationPart.entity.previousApplicationLotId"
+                                 [applicationCommitId]="model.previousApplicationPart.entity.previousApplicationCommitId"
+                                 [canAddPreviousApplication]="model.previousApplicationPart.entity.previousApplicationLotId == null ? true : false"
+                                 [isEditMode]="previousApplicationPart.isEditMode"
+                                 (isValidForm)="previousApplicationPart.hasValidData = $event">
+  </app-previous-application-form>
+</app-part-panel>
+
+<app-part-panel #representativePart
+                class="mt-3"
+                style="display: block;"
+                header="{{ 'application.new.representative.title' | translate }}"
+                partName="representativePart"
+                [(model)]="model.representativePart"
+                [commitState]="model.state">
+  <app-representative-form [(model)]="model.representativePart.entity"
+                           (isValidForm)="representativePart.hasValidData = $event"
+                           [isEditMode]="representativePart.isEditMode"></app-representative-form>
+</app-part-panel>
+
+<app-part-panel #educationPart
+                class="mt-3"
+                style="display: block;"
+                header="{{ 'application.new.education.title' | translate }}"
+                partName="educationPart"
+                [(model)]="model.educationPart"
+                [commitState]="model.state">
+  <app-education-form [(model)]="model.educationPart.entity"
+                      (isValidForm)="educationPart.hasValidData = $event"
+                      [isEditMode]="educationPart.isEditMode"
+                      [universityId]="model?.applicantPart.entity?.institution?.id"></app-education-form>
+</app-part-panel>
+
+<app-part-panel #diplomaPart
+                class="mt-3"
+                style="display: block;"
+                header="{{ 'application.new.diploma.title' | translate }}"
+                partName="diplomaPart"
+                [(model)]="model.diplomaPart"
+                [commitState]="model.state">
+  <app-diploma-form [(model)]="model.diplomaPart.entity"
+                    (isValidForm)="diplomaPart.hasValidData = $event"
+                    [isEditMode]="diplomaPart.isEditMode"></app-diploma-form>
+</app-part-panel>
+
+<app-part-panel #trainingPart
+                class="mt-3"
+                style="display: block;"
+                header="{{ 'application.new.training.titleTraining' | translate }}"
+                partName="trainingPart"
+                [(model)]="model.trainingPart"
+                [commitState]="model.state">
+  <app-training-form [(model)]="model.trainingPart.entity"
+                     (isValidForm)="trainingPart.hasValidData = $event"
+                     [isEditMode]="trainingPart.isEditMode"></app-training-form>
+</app-part-panel>
+
+<app-part-panel #taxAccountPart
+                class="mt-3 mb-3"
+                style="display: block;"
+                header="{{ 'application.new.taxes.titleTaxes' | translate }}"
+                partName="taxAccountPart"
+                [(model)]="model.taxAccountPart"
+                [commitState]="model.state">
+  <app-taxes-form [(model)]="model.taxAccountPart.entity"
+                  (isValidForm)="taxAccountPart.hasValidData = $event"
+                  [isEditMode]="taxAccountPart.isEditMode"></app-taxes-form>
+</app-part-panel>
+
+<app-part-panel #medicalCertificatePart
+                class="mt-3 mb-3"
+                style="display: block;"
+                header="{{ 'application.new.medicalCertificate.title' | translate }}"
+                partName="medicalCertificatePart"
+                [(model)]="model.medicalCertificatePart"
+                [commitState]="model.state">
+  <app-medical-certificate-form [(model)]="model.medicalCertificatePart.entity"
+                                (isValidForm)="medicalCertificatePart.hasValidData = $event"
+                                [isEditMode]="medicalCertificatePart.isEditMode"></app-medical-certificate-form>
+</app-part-panel>
+
+<app-part-panel #documentsPart
+                class="mt-3 mb-3"
+                style="display: block;"
+                header="{{ 'application.new.documents.title' | translate }}"
+                partName="documentPart"
+                [(model)]="model.documentPart"
+                [commitState]="model.state">
+  <app-documents-form [(model)]="model.documentPart.entity"
+                      (isValidForm)="documentsPart.hasValidData = $event"
+                      [isEditMode]="documentsPart.isEditMode"
+                      [applicantFullName]="model.applicantPart.entity.firstName + ' ' + model.applicantPart.entity.lastName"
+                      [showElements]="true">
+  </app-documents-form>
+</app-part-panel>
+
+<div class="d-flex mt-3">
+  <div *ngIf="actions?.length < 2 && (model.lotResult.type != resultType.certificate && model.lotResult.type != resultType.rejection) && isUniversity"
+       style="display: inline-block; margin-left: auto;">
+    <ng-container *ngFor="let action of actions">
+      <button class="btn btn-sm btn-success"
+              type="button"
+              (click)="action.action()">
+        {{ action.name}}
+      </button>
+    </ng-container>
+  </div>
+</div>

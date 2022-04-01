@@ -1,0 +1,447 @@
+<div class="search-panel">
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-8">
+			<label>{{ 'application.search.candidateName' | translate }}</label>
+			<input name="candidateName"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.candidateName"
+						 maxlength="80">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'application.search.applicationResult.endResult' | translate }}</label>
+			<select class="custom-select custom-select-sm"
+							[(ngModel)]="filter.endResult">
+				<option selected
+								[ngValue]="null">{{ 'application.search.applicationResult.all' | translate }}</option>
+				<option [ngValue]="searchResultTypes.actual">
+					{{ 'application.search.applicationResult.actual' | translate }}
+				</option>
+				<option [ngValue]="searchResultTypes.modification">
+					{{ 'application.search.applicationResult.modification' | translate }}
+				</option>
+				<option [ngValue]="searchResultTypes.forSign">
+					{{ 'application.search.applicationResult.forSign' | translate }}
+				</option>
+				<option [ngValue]="searchResultTypes.certificate">
+					{{ 'application.search.applicationResult.certificate' | translate }}
+				</option>
+				<option [ngValue]="searchResultTypes.rejection">
+					{{ 'application.search.applicationResult.rejection' | translate }}
+				</option>
+				<option [ngValue]="searchResultTypes.refusedSign">
+					{{ 'application.search.applicationResult.refusedSign' | translate }}
+				</option>
+				<option [ngValue]="searchResultTypes.annulled">
+					{{ 'application.search.applicationResult.annulled' | translate }}
+				</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-8">
+			<label>{{ 'application.search.orgranizationName' | translate }}</label>
+			<ng-container *ngIf="!isUniversityUser">
+				<app-async-select #institution="ngModel"
+													name="institution"
+													restUrl="Institution/ApplicationsUniversities"
+													[(ngModel)]="filter.institution"
+													(ngModelChange)="filter.institutionId = $event.id"
+													[disabled]="isUniversityUser"
+													[enableBorder]="true"></app-async-select>
+			</ng-container>
+
+			<input *ngIf="isUniversityUser"
+						 name="institution"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.institution"
+						 [disabled]="isUniversityUser">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'application.search.registerNumber' | translate }}</label>
+			<input name="registerNumber"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.registerNumber"
+						 maxlength="30">
+		</div>
+	</div>
+
+	<div>
+		<div *ngIf="isAdvancedSearch">
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-4">
+					<label>{{ 'application.search.country' | translate }}</label>
+					<app-async-select #candidateNationality="ngModel"
+														name="candidateCountry"
+														restUrl="Country/Select"
+														[(ngModel)]="filter.candidateCountry"
+														(ngModelChange)="filter.candidateCountryId = $event.id"
+														[enableBorder]="true"></app-async-select>
+				</div>
+
+				<div class="form-group col-sm-12 col-md-4">
+					<label>{{ 'application.search.birthPlace' | translate }}</label>
+					<input class="form-control form-control-sm"
+								 name="birthPlace"
+								 [(ngModel)]="filter.candidateBirthPlace"
+								 maxlength="40">
+				</div>
+
+				<div class="form-group col-sm-12 col-md-2">
+					<label>{{ 'application.search.birthdayFrom' | translate }}</label>
+					<div class="input-group input-group-sm">
+						<input class="form-control"
+									 name="birthdayFrom"
+									 [ngStyle]="{'border': birthdayFrom.status == 'INVALID' ? '1px solid #dc3545' : null}"
+									 ngbDatepicker
+									 #birthdayFrom="ngModel"
+									 #birthDatepickerFrom="ngbDatepicker"
+									 placeholder="дд/мм/гггг"
+									 validDate
+									 [minDate]="{ year: 1900, month: 1, day: 1 }"
+									 [maxDate]="maxDate"
+									 [(ngModel)]="filter.fromDate"
+									 maxlength="10">
+						<div class="input-group-append">
+							<button class="btn btn-sm btn-outline-primary"
+											(click)="birthDatepickerFrom.toggle()"
+											type="button">
+								<app-icon icon="calendar2-event"
+													width="12"
+													height="12"></app-icon>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group col-sm-12 col-md-2">
+					<label>{{ 'application.search.birthdayTo' | translate }}</label>
+					<div class="input-group input-group-sm">
+						<input class="form-control"
+									 name="birthdayTo"
+									 ngbDatepicker
+									 [ngStyle]="{'border': birthdayTo.status == 'INVALID' ? '1px solid #dc3545' : null}"
+									 #birthdayTo="ngModel"
+									 #birthDatepickerTo="ngbDatepicker"
+									 placeholder="дд/мм/гггг"
+									 validDate
+									 [minDate]="{ year: 1900, month: 1, day: 1 }"
+									 [maxDate]="maxDate"
+									 [(ngModel)]="filter.toDate"
+									 maxlength="10">
+						<div class="input-group-append">
+							<button class="btn btn-sm btn-outline-primary"
+											(click)="birthDatepickerTo.toggle()"
+											type="button">
+								<app-icon icon="calendar2-event"
+													width="12"
+													height="12"></app-icon>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-12">
+					<label>{{ 'application.search.faculty' | translate }}</label>
+
+					<app-async-select #faculty="ngModel"
+														name="faculty"
+														restUrl="Institution/Faculty"
+														[(ngModel)]="filter.faculty"
+														(ngModelChange)="filter.facultyId = $event.id"
+														[filter]="{entityId: filter.institutionId}"
+														[disabled]="!filter?.institutionId"
+														[enableBorder]="true"></app-async-select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-8">
+					<label>{{ 'application.search.specialty' | translate }}</label>
+
+					<app-async-select #speciality="ngModel"
+														name="speciality"
+														restUrl="Speciality/SpecialityByUniversity"
+														[(ngModel)]="filter.speciality"
+														(ngModelChange)="filter.specialityId = $event.id; filter.specialityName = $event.name; onSpecialityChange($event)"
+														[filter]="{entityId: filter.institutionId, facultyId: filter.facultyId}"
+														[disabled]="!filter?.institutionId"
+														[enableBorder]="true">
+						<ng-template #dropdownItemTemplate
+												 let-item>
+							{{ item.name }}
+						</ng-template>
+					</app-async-select>
+				</div>
+
+				<div class="form-group col-sm-12 col-md-4">
+					<label>{{ 'application.search.academicDegree' | translate }}</label>
+
+					<app-async-select #academicDegree="ngModel"
+														name="academicDegree"
+														restUrl="EducationalQualification/Select"
+														[(ngModel)]="filter.academicDegree"
+														(ngModelChange)="filter.academicDegreeId = $event.id"
+														[enableBorder]="true"></app-async-select>
+				</div>
+			</div>
+		</div>
+
+		<div (click)="expandAdvancedSearch()"
+				 style="cursor: pointer; width: fit-content;"
+				 class="form-group">
+
+			<app-icon icon="{{ isAdvancedSearch ? 'chevron-up' : 'chevron-right' }}"
+								class="mr-1"></app-icon>
+			<p style="display: inline-block;"
+				 *ngIf="!isAdvancedSearch">{{ 'buttons.advancedSearch' | translate }}</p>
+			<p style="display: inline-block;"
+				 *ngIf="isAdvancedSearch">{{ 'buttons.notAdvancedSearch' | translate }}</p>
+
+		</div>
+	</div>
+
+	<div class="row mt-2 mb-2">
+		<div class="col-sm-12">
+			<div class="float-md-left">
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-secondary  d-flex align-items-center"
+									awaitable
+									[click]="clearFilter"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon class="mr-1"
+											icon="trash"
+											width="13"
+											height="13"></app-icon>
+						{{ 'buttons.clear' | translate }}
+					</button>
+				</div>
+			</div>
+			<div class="float-md-right d-flex">
+				<div style="display: inline-block;">
+					<button *ngIf="isUniversityUser"
+									type="button"
+									class="btn btn-sm btn-outline-primary btn-light d-flex align-items-center"
+									routerLink="/application/new">
+						<app-icon class="mr-1"
+											icon="plus-circle"
+											width="16"
+											height="16"></app-icon>
+						{{ 'buttons.newApplication' | translate }}
+					</button>
+				</div>
+
+				<div class="dropdown ml-3"
+						 style="display: inline-block;">
+					<button class="btn btn-sm btn-outline-primary dropdown-toggle"
+									type="button"
+									data-toggle="dropdown"
+									[disabled]="!model.length && !drafts.length">
+						{{ 'buttons.export' | translate }}
+					</button>
+					<div class="dropdown-menu">
+						<app-export restController="Application/Excel"
+												filename="Applications.xlsx"
+												[filter]="filter"
+												[contentType]="contentTypes.EXCEL">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-spreadsheet"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.excelExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+
+						<app-export restController="Application/Pdf"
+												filename="Applications.pdf"
+												[filter]="filter"
+												[contentType]="contentTypes.PDF">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-richtext"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.pdfExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+					</div>
+				</div>
+
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-primary ml-3"
+									awaitable
+									[click]="search"
+									[clickParams]="[false]"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon icon="search"
+											class="thicker-icon"
+											width="12"
+											height="12"></app-icon>
+						{{ 'buttons.search' | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<table *ngIf="isUniversityUser && drafts.length > 0"
+			 class="table search-table table-bordered mt-5">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col"
+					style="width: 26%;">{{ 'application.table.candidateNames' | translate }}</th>
+			<th scope="col"
+					style="width: 12%;">{{ 'application.table.country' | translate }}</th>
+			<th scope="col"
+					style="width: 13%;">{{ 'application.table.nationalities' | translate }}</th>
+			<th scope="col">{{ 'application.table.speciality' | translate }}</th>
+			<th scope="col"
+					style="width: 12%;">{{ 'application.table.endResult' | translate }}</th>
+			<th scope="col"
+					style="width: 7%;">{{ 'application.table.action' | translate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngIf="isUniversityUser && !drafts.length">
+			<td colspan="8"
+					style="text-align: center">
+				{{ 'application.table.noResults' | translate }}
+			</td>
+		</tr>
+		<tr *ngFor="let draft of drafts">
+			<td>{{ draft.candidateCommit.candidatePart.entity.firstName }}
+				{{draft.candidateCommit.candidatePart.entity.lastName}}<br> {{
+				draft.candidateCommit.candidatePart.entity.firstNameCyrillic }} {{
+				draft.candidateCommit.candidatePart.entity.lastNameCyrillic }}</td>
+			<td>{{ draft.candidateCommit.candidatePart.entity.country.name }}<br> {{
+				draft.candidateCommit.candidatePart.entity.birthDate | date: 'dd.MM.yyyy' }}</td>
+			<td>{{ draft.candidateCommit.candidatePart.entity.nationality.name }}
+				<span style="display: block;"
+							*ngFor="let nationality of draft.candidateCommit.candidatePart.entity.otherNationalities">{{
+					nationality.name }}</span>
+			</td>
+			<td>{{ draft.education.speciality?.name }}<br> {{ draft.education.form?.name }}<span
+							*ngIf="draft.education.form && draft.education.educationalQualification"> {{
+					draft.education.educationalQualification?.name }}</span></td>
+			<td>
+				<p target="_blank">
+					{{ 'application.table.draft' | translate }}
+				</p>
+			</td>
+			<td class="preview"
+					style="text-align: center">
+				<a class="btn btn-sm btn-outline-primary"
+					 [routerLink]="['/application', 'draft', draft.draftId]">
+					<app-icon icon="search"
+										width="14"
+										height="14"></app-icon>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="table search-table table-bordered mt-5">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col"
+					style="width: 13%;">{{ 'application.table.registerNumber' | translate }}</th>
+			<th scope="col"
+					style="width: 13%;">{{ 'application.table.candidateNames' | translate }}</th>
+			<th scope="col"
+					style="width: 12%;">{{ 'application.table.country' | translate }}</th>
+			<th scope="col"
+					style="width: 13%;">{{ 'application.table.nationalities' | translate }}</th>
+			<th *ngIf="!isUniversityUser"
+					scope="col">{{ 'application.table.orgranizationName' | translate }}</th>
+			<th scope="col">{{ 'application.table.speciality' | translate }}</th>
+			<th scope="col"
+					style="width: 12%;">{{ 'application.table.endResult' | translate }}</th>
+			<th scope="col"
+					style="width: 7%;">{{ 'application.table.action' | translate }}</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngIf="!model.length">
+			<td colspan="8"
+					style="text-align: center">
+				{{ 'application.table.noResults' | translate }}
+			</td>
+		</tr>
+		<tr *ngFor="let application of model"
+				[ngStyle]="{'background-color': application.resultType == resultType.actual && isMonUser
+				|| application.resultType == resultType.modification && isUniversityUser
+				|| (application.resultType == resultType.certificate || application.resultType == resultType.rejection) && canSign && !application.isSigned ? 'lemonchiffon' : null}">
+			<td>{{ application.registerNumber }}</td>
+			<td>{{ application.candidateName }}<br> {{ application.candidateCyrillicName }}</td>
+			<td>{{ application.candidateCountry }}<br> {{application.candidateBirthPlace}},
+				{{ application.birthDate | date: 'dd.MM.yyyy' }}</td>
+			<td>{{ application.candidateNationality }}
+				<span style="display: block;"
+							*ngFor="let nationality of application.otherNationalities">{{ nationality.name }}</span>
+			</td>
+			<td *ngIf="!isUniversityUser">{{ application.organizationName }}<br> {{ application.applicantName }} <br><a
+					 href="mailto:{{ application.applicantMail }}">
+					{{ application.applicantMail}}</a><br> {{ application.applicantPhone }}
+			</td>
+			<td>{{ application.speciality != null ? application.speciality : application.specialization }}<br> {{
+				application.form }}<span *ngIf="application.form && application.educationalQualification">,</span> {{
+				application.educationalQualification }}</td>
+			<td>
+				<a *ngIf="(application.resultType == resultType.certificate || application.resultType == resultType.rejection) && application.isSigned"
+					 [href]="application.filePdfUrl"
+					 target="_blank">
+					{{ resultTypeLocalization[application.resultType]}}
+				</a>
+				<p *ngIf="application.resultType != resultType.certificate && application.resultType != resultType.rejection"
+					 target="_blank">
+					{{ resultTypeLocalization[application.resultType]}}
+				</p>
+				<p *ngIf="(application.resultType == resultType.certificate || application.resultType == resultType.rejection) && !application.isSigned"
+					 target="_blank">
+					{{ 'application.table.forSign' | translate }}
+				</p>
+			</td>
+			<td class="preview"
+					style="text-align: center">
+				<a class="btn btn-sm btn-outline-primary"
+					 [routerLink]="['/application', 'lot', application.lotId, 'commit', application.commitId]">
+					<app-icon icon="search"
+										width="14"
+										height="14"></app-icon>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="d-flex justify-content-between">
+	<div>
+		<button *ngIf="canLoadMore && modelCounts < totalCounts"
+						type="button"
+						class="btn btn-sm btn-secondary"
+						(click)="loadMore()">
+			{{ 'buttons.moreResults' | translate }}
+		</button>
+	</div>
+
+	<div>
+		<p *ngIf="modelCounts > 0">Показани {{ modelCounts }} от общо {{ totalCounts }} записа</p>
+	</div>
+</div>

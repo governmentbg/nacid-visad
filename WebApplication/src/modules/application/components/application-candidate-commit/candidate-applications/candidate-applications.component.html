@@ -1,0 +1,80 @@
+<table class="table search-table table-bordered mt-4">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col"
+					style="width: 15%;">{{ 'candidate.applicationsTable.registerNumber' | translate }}</th>
+			<th scope="col"
+					style="width: 30%;">{{ 'candidate.applicationsTable.organizationName' | translate }}</th>
+			<th scope="col"
+					style="width: 30%;">{{ 'candidate.applicationsTable.speciality' | translate }}</th>
+			<th scope="col"
+					style="width: 17%">{{ 'candidate.applicationsTable.status' | translate }}</th>
+			<th scope="col"
+					style="width: 8%;">{{ 'candidate.applicationsTable.details' | translate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngIf="!applications.length">
+			<td colspan="5"
+					style="text-align: center">
+				{{ 'candidate.table.noApplications' | translate }}
+			</td>
+		</tr>
+
+		<ng-container *ngIf="!isMonUser">
+			<tr *ngFor="let application of applications">
+				<td>{{ application.registerNumber }}</td>
+				<td>{{ application.organizationName }}</td>
+				<td>{{ application.speciality }}</td>
+				<td>
+					<a *ngIf="application.resultType == resultType.certificate || application.resultType == resultType.rejection"
+						 [href]="application.filePdfUrl"
+						 target="_blank">
+						{{ resultTypeLocalization[application.resultType]}}
+					</a>
+					<p *ngIf="application.resultType != resultType.certificate && application.resultType != resultType.rejection"
+						 target="_blank">
+						{{ resultTypeLocalization[application.resultType]}}
+					</p>
+				</td>
+				<td class="preview"
+						style="text-align: center">
+					<a class="btn btn-sm btn-outline-primary"
+						 [routerLink]="['/application', 'lot', application.lotId, 'commit', application.commitId]">
+						<app-icon icon="search"
+											width="14"
+											height="14"></app-icon>
+					</a>
+				</td>
+			</tr>
+		</ng-container>
+
+		<ng-container *ngIf="isMonUser">
+			<tr *ngIf="applications.length > 0">
+				<td>{{ application.registerNumber }}</td>
+				<td>{{ application.organizationName }}</td>
+				<td>{{ application.speciality }}</td>
+				<td>
+					<a *ngIf="application.resultType == resultType.certificate || application.resultType == resultType.rejection"
+						 [href]="application.filePdfUrl"
+						 target="_blank">
+						{{ resultTypeLocalization[application.resultType]}}
+					</a>
+					<p *ngIf="application.resultType != resultType.certificate && application.resultType != resultType.rejection"
+						 target="_blank">
+						{{ resultTypeLocalization[application.resultType]}}
+					</p>
+				</td>
+				<td class="preview"
+						style="text-align: center">
+					<a class="btn btn-sm btn-outline-primary"
+						 [routerLink]="['/application', 'lot', application.lotId, 'commit', application.commitId]">
+						<app-icon icon="search"
+											width="14"
+											height="14"></app-icon>
+					</a>
+				</td>
+			</tr>
+		</ng-container>
+	</tbody>
+</table>

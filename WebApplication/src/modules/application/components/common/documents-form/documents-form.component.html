@@ -1,0 +1,127 @@
+<ng-form>
+	<div *ngFor="let file of model.files; let i = index; trackBy: sharedService.trackByFn"
+			 class="multi-container">
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-6"
+					 *ngIf="model.files[i].type != null">
+				<label class="d-inline-flex align-items-center">
+					{{ model.files[i].type.name }}
+					<app-help-tooltip class="ml-1"
+														*ngIf="model.files[i].type.description != null"
+														[tooltipText]="model.files[i].type.description">
+					</app-help-tooltip>
+				</label>
+
+				<app-file-upload #attachedFile="ngModel"
+												 name="attachedFile-{{i}}"
+												 [(ngModel)]="model.files[i].attachedFile"
+												 [disabled]="!isEditMode"></app-file-upload>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-6"
+					 *ngIf="model.files[i].type == null">
+				<label class="d-inline-flex align-items-center">
+					{{ 'application.new.documents.documentDescription' | translate }}
+				</label>
+
+				<input #fileDescription="ngModel"
+							 type="text"
+							 name="fileDescription--{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.files[i].fileDescription"
+							 [disabled]="!isEditMode"
+							 [required]="isEditMode"
+							 minlength="8"
+							 maxlength="50">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-5"
+					 *ngIf="model.files[i].type == null">
+				<label class="d-inline-flex">
+					{{ 'application.new.documents.attachedFile' | translate }}
+				</label>
+				<app-file-upload #attachedFile="ngModel"
+												 name="attachedFile-{{i}}"
+												 [(ngModel)]="model.files[i].attachedFile"
+												 [disabled]="!isEditMode"
+												 [required]="isEditMode"></app-file-upload>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-1"
+					 *ngIf="isEditMode">
+				<div class="float-md-right">
+					<label class="d-inline-flex">
+					</label>
+					<button *ngIf="model.files.length > 1 && model.files[i].type == null"
+									type="button"
+									class="btn btn-sm btn-secondary"
+									style="display: flex; align-items: center; justify-content: center"
+									(click)="removeFile(i)">
+						<app-icon icon="trash"
+											class="mr-1"></app-icon>
+						{{ 'buttons.delete' | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<ng-container *ngIf="educationalQualificationAlias != null || showElements">
+		<div *ngIf="isEditMode"
+				 class="row">
+			<div class="col-sm-12 col-md-3">
+				<button type="button"
+								class="btn btn-sm btn-primary d-flex"
+								style="align-items: center; justify-content: center; width: 100%;"
+								(click)="addFile()">
+					<app-icon icon="plus-circle"
+										class="thicker-icon mr-1"></app-icon>
+					{{ 'application.new.documents.addFile' | translate }}
+				</button>
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="form-group col-sm-12">
+				<label>{{ 'application.new.documents.description' | translate }}</label>
+				<textarea class="form-control"
+									rows="3"
+									maxlength="256"
+									name="description"
+									[(ngModel)]="model.description"
+									[disabled]="!isEditMode"></textarea>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12 mt-3">
+				<app-validation-error-message *ngIf="isEditMode && identicalFiles.invalid"
+																			class="mr-1"
+																			style="padding-top: 3px;"
+																			[control]="identicalFiles"
+																			[validationTexts]="validationTexts">
+				</app-validation-error-message>
+				<div class="form-check">
+					<input class="form-check-input"
+								 #identicalFiles="ngModel"
+								 type="checkbox"
+								 title="Моля, поставете отметка в това квадратче, за да продължите"
+								 name="isIdentical"
+								 [(ngModel)]="model.areIdenticalFiles"
+								 [disabled]="!isEditMode"
+								 required>
+
+					<p style="width: 95; margin: 0;">
+						Аз, {{ applicantFullName }}, потвърждавам, че приложените сканирани документи са
+						четими и идентични с представените ми хартиени оригинали.</p>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+
+	<div class="row"
+			 *ngIf="educationalQualificationAlias == null && !showElements">
+		<div class="form-group col-sm-12">
+			{{ 'application.new.documents.noEducation' | translate }}
+		</div>
+	</div>
+</ng-form>

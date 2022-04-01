@@ -1,0 +1,103 @@
+<div id="top"></div>
+
+<app-loading-indicator></app-loading-indicator>
+
+<header>
+  <div class="container">
+    <div class="row d-flex"
+         style="color: black; align-items: baseline;">
+      <div class="d-flex align-items-center"
+           style="padding: 0px 15px;">
+        <a routerLink=""
+           class="logo-link mt-3"
+           style="padding-left: 0; margin-left: 0;">
+          <img style="width: 4em; height: 5em;"
+               src="./../assets/logo_vec.svg">
+        </a>
+
+        <div class="title mt-3">
+          <h3 style="font-weight: bold; color: #135496; text-transform: uppercase; margin-bottom: 0;">{{
+            'common.title_nacid' | translate }}</h3>
+          <h6 style="font-weight: bold; text-transform: uppercase;">{{ 'common.title_visaD_header' | translate }}</h6>
+        </div>
+      </div>
+
+      <div class="d-flex">
+        <div *ngIf="!username"
+             class="root link primary d-flex align-items-center"
+             style="margin: 0px 15px;"
+             (click)="logIn()">
+          <span class="lang">{{ 'eAuthentication.login' | translate }}</span>
+        </div>
+
+        <div *ngIf="username"
+             class="root link primary d-flex align-items-center"
+             style="margin: 0px 15px;"
+             (click)="logOut()">
+          <span class="lang">{{ username }}</span>
+        </div>
+
+        <div class="root link primary d-flex align-items-center"
+             style="margin: 0px 15px;"
+             (click)="switchLang()">
+          <app-icon icon="globe"
+                    class="mr-1"
+                    [width]="20"
+                    [height]="20"></app-icon>
+          <span class="lang">{{ langSuffix }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer></app-footer>
+
+<!-- <footer>
+  <div class="container center-up-btn">
+    <span (click)="scrollToTop()"
+          class="go-to-top"> </span>
+    <div>
+      <img src="assets/logo_good_governance_{{ imgSuffix }}.png"
+           alt="">
+    </div>
+    <div style="margin-top: 20px;margin-bottom: 20px;">
+      <span>{{ 'common.footer_info' | translate }}</span>
+    </div>
+    <div>
+      <a href="http://www.eufunds.bg"
+         target="_blank">
+        www.eufunds.bg
+      </a>
+    </div>
+    <a href="https://mon.bg/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="logo">
+      <img src="assets/gerb.png"
+           alt="">
+      <span>{{ 'common.mon' | translate }}</span>
+    </a>
+    <a href="http://nacid.bg/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="logo">
+      <img src="assets/nacid.png"
+           alt="">
+      <span>{{ 'common.nacid' | translate }}</span>
+    </a>
+    <span class="copyright">© {{ currentYear }} {{ 'common.nacid_abbr' | translate }}</span>
+    <div class="links">
+      <a [href]="'http://nacid.bg/bg/contacts/'"
+         title=""
+         target="_blank"
+         rel="noopener noreferrer">{{ 'common.nacid_Contacts' | translate }}</a>
+    </div>
+  </div>
+</footer> -->
+
+<div id="bottom"></div>

@@ -1,0 +1,74 @@
+<div class="card">
+	<div class="card-header"
+			 style="display: flex; align-items: center; justify-content: space-between; font-weight: bold; text-transform: uppercase;">
+		{{ header }}
+
+		<div *ngIf="!canEditCandidate">
+			<span *ngIf="commitState === commitStates.modification && showEnumLocalization"
+						style="font-style: italic; font-size: 14px; margin-right: .5em;"
+						[ngStyle]="{'color': model.state == 1 ? 'red' : null }">
+				{{ enumLocalization [model.state]}}
+			</span>
+			<ng-container *ngIf="commitState === commitStates.modification">
+				<ng-container *ngIf="model?.state === partStates.unchanged && (canEdit || canEditCandidate) && showEditButton">
+					<button class="btn btn-sm btn-primary"
+									(click)="startModification()">
+						{{ 'buttons.startModification' | translate }}
+					</button>
+				</ng-container>
+
+				<ng-container *ngIf="model?.state === partStates.modified">
+					<ng-container *ngIf="!isEditMode">
+						<button *ngIf="!isEditMode"
+										class="btn btn-sm btn-primary"
+										(click)="edit()">
+							{{ 'buttons.edit' | translate }}
+						</button>
+
+						<button class="btn btn-sm btn-danger ml-1"
+										(click)="cancelModification()">
+							{{ 'buttons.cancelModification' | translate }}
+						</button>
+					</ng-container>
+
+					<ng-container *ngIf="isEditMode">
+						<button class="btn btn-sm btn-success"
+										(click)="update()"
+										[disabled]="!hasValidData">
+							{{ 'buttons.save' | translate }}
+						</button>
+
+						<button class="btn btn-sm btn-danger ml-1"
+										(click)="cancelEdit()">
+							{{ 'buttons.cancelEdit' | translate }}
+						</button>
+					</ng-container>
+				</ng-container>
+			</ng-container>
+
+			<ng-container *ngIf="commitState === commitStates.initialDraft || commitState === commitStates.commitReady">
+				<button *ngIf="!isEditMode"
+								class="btn btn-sm btn-primary"
+								(click)="edit()">
+					{{ 'buttons.edit' | translate }}
+				</button>
+
+				<ng-container *ngIf="isEditMode">
+					<button class="btn btn-sm btn-success"
+									(click)="update()"
+									[disabled]="!hasValidData">
+						{{ 'buttons.save' | translate }}
+					</button>
+
+					<button class="btn btn-sm btn-danger ml-1"
+									(click)="cancelEdit()">
+						{{ 'buttons.cancelEdit' | translate }}
+					</button>
+				</ng-container>
+			</ng-container>
+		</div>
+	</div>
+	<div class="card-body">
+		<ng-content></ng-content>
+	</div>
+</div>

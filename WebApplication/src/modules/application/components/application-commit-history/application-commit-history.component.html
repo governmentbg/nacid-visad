@@ -1,0 +1,49 @@
+<button type="button"
+				class="btn btn-sm btn-primary mb-4"
+				(click)="backClicked()">
+	<app-icon icon="chevron-left"
+						class="thicker-icon d-inline-flex"
+						width="12"
+						height="12"></app-icon>
+	{{ 'buttons.back' | translate}}
+</button>
+
+<div *ngIf="model.commits.length > 0">
+	<ng-container *ngFor="let commit of model.commits, let i = index">
+		<p *ngIf="i == 0">История на заявление номер {{commit.registerNumber}} на лицето
+			{{commit.candidateName}}
+			({{commit.candidateCountry}},
+			роден {{commit.candidateBirthDate | date: 'dd.MM.yyyy' }}).</p>
+	</ng-container>
+</div>
+
+<table class="table search-table table-bordered">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col">{{ 'application.commitHistory.createDate' | translate }}</th>
+			<th scope="col">{{ 'application.commitHistory.applicantName' | translate }}</th>
+			<th scope="col">{{ 'application.commitHistory.status' | translate }}</th>
+
+			<th scope="col"
+					style="width: 25%;">{{ 'application.commitHistory.changeStateDescription' | translate }}</th>
+			<th scope="col"
+					style="width: 8.33%;">{{ 'application.commitHistory.actions' | translate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let commit of model.commits">
+			<td>{{ commit.createDate | date: 'dd.MM.yyyy, HH:mm:ss' }}ч.</td>
+			<td>{{ commit.applicantName }}</td>
+			<td *ngIf="commit.applicationLotResultType == null">{{ enumLocalization[commit.state] }}</td>
+			<td *ngIf="commit.applicationLotResultType != null">{{ resultTypeLocalization[commit.applicationLotResultType] }}
+			</td>
+			<td>{{ commit.changeStateDescription }}</td>
+			<td style="text-align: center;">
+				<a *ngIf="commit.commitId"
+					 [routerLink]="['/application', 'lot', commit.lotId, 'commit', commit.commitId]">
+					<app-icon icon="search"></app-icon>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

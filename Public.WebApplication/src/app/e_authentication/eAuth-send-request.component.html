@@ -1,0 +1,17 @@
+<div style="text-align:center; margin: 20px 20px -10px 20px">
+  <h6>{{'eAuthentication.message' | translate}}</h6>
+  <form ngNoForm
+        [action]="trustUrl(model.postUrl)"
+        method="post">
+    <div *ngFor="let pair of model.keyValuePairs">
+      <input type="hidden"
+             [id]="pair.key"
+             [name]="pair.key"
+             [value]="pair.value" />
+    </div>
+    <input type="submit"
+           style="margin:10px 0px 20px 0px"
+           class="btn-md btn-search"
+           [value]="'eAuthentication.continue' | translate" />
+  </form>
+</div>

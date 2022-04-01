@@ -1,0 +1,282 @@
+<div class="search-panel mb-5">
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-2">
+			<label> {{ 'report.schoolYear'| translate }} </label>
+			<app-async-select #schoolYear="ngModel"
+												name="schoolYear"
+												restUrl="SchoolYear/Select"
+												[filter]="{ includeInactive: true }"
+												[(ngModel)]="filter.schoolYear"
+												(ngModelChange)="filter.schoolYearId = $event.id; filter.schoolYearName = $event.name; onYearChange($event)"
+												[disabled]="filter.reportType == reportType.reportByCandidateWithMoreThanOneCertificate">
+			</app-async-select>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-10">
+			<label>{{ 'report.reportType.type'| translate }}</label>
+			<select class="custom-select custom-select-sm"
+							#status="ngModel"
+							name="status"
+							(ngModelChange)="onReportTypeChange($event)"
+							[(ngModel)]="filter.reportType">
+				<option [ngValue]="reportType.defaultReport">
+					{{ 'report.reportType.defaultReport'| translate }}
+				</option>
+				<option [ngValue]="reportType.reportByInstitution">
+					{{ 'report.reportType.reportByInstitution'| translate }}
+				</option>
+				<option [ngValue]="reportType.reportByNationality">
+					{{ 'report.reportType.reportByNationality'| translate }}
+				</option>
+				<option [ngValue]="reportType.reportByCountry">
+					{{ 'report.reportType.reportByCountry'| translate }}
+				</option>
+				<option [ngValue]="reportType.reportByEducationalQualification">
+					{{ 'report.reportType.reportByEducationalQualification'| translate }}
+				</option>
+				<option [ngValue]="reportType.reportByCandidateWithMoreThanOneCertificate">
+					{{ 'report.reportType.reportByCandidateWithMoreThanOneCertificate'| translate }}
+				</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-6">
+			<label>{{ 'report.institution' | translate }}</label>
+			<app-async-select #institution="ngModel"
+												name="institution"
+												restUrl="Institution/ApplicationsUniversities"
+												[(ngModel)]="filter.institution"
+												[filter]="{schoolYearId: filter.schoolYearId}"
+												(ngModelChange)="filter.institutionId = $event.id; filter.institutionName = $event.name"
+												[disabled]="isUniversityUser || filter.reportType == reportType.defaultReport || filter.reportType == reportType.reportByInstitution || filter.reportType == reportType.reportByEducationalQualification">
+			</app-async-select>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-6">
+			<label class="d-inline-flex">
+				{{ 'report.educationalQualification' | translate }}
+			</label>
+			<app-async-select #educationalQualification="ngModel"
+												name="educationalQualification"
+												restUrl="EducationalQualification/Select"
+												[(ngModel)]="filter.educationalQualification"
+												(ngModelChange)="filter.educationalQualificationId = $event.id; filter.educationalQualificationName = $event.name"
+												[disabled]="filter.reportType == reportType.reportByEducationalQualification">
+			</app-async-select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-6">
+			<label>{{ 'report.nationality' | translate }}</label>
+			<app-async-select #nationality="ngModel"
+												name="nationality"
+												restUrl="Country/Select"
+												[(ngModel)]="filter.nationality"
+												[filter]="{entityId: filter.schoolYearId}"
+												(ngModelChange)="filter.nationalityId = $event.id; filter.nationalityName = $event.name"
+												[disabled]="filter.reportType == reportType.reportByNationality || filter.reportType == reportType.reportByCountry || filter.reportType == reportType.reportByEducationalQualification">
+			</app-async-select>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-6">
+			<label>{{ 'report.country' | translate }}</label>
+			<app-async-select #country="ngModel"
+												name="country"
+												restUrl="Country/Select"
+												[filter]="{entityId: filter.schoolYearId}"
+												[(ngModel)]="filter.country"
+												(ngModelChange)="filter.countryId = $event.id; filter.countryName = $event.name"
+												[disabled]="filter.reportType == reportType.defaultReport || filter.reportType == reportType.reportByInstitution || filter.reportType == reportType.reportByNationality || filter.reportType == reportType.reportByCountry || filter.reportType == reportType.reportByEducationalQualification">
+			</app-async-select>
+		</div>
+	</div>
+
+	<div class="row mt-4 mb-2">
+		<div class="col-sm-12">
+			<div class="float-md-left">
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-secondary d-flex align-items-center"
+									awaitable
+									[click]="clearFilter"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon class="mr-1"
+											icon="trash"
+											width="13"
+											height="13"></app-icon>
+						{{ 'buttons.clear' | translate }}
+					</button>
+				</div>
+			</div>
+
+			<div class="float-md-right d-flex">
+				<div class="dropdown ml-3"
+						 style="display: inline-block;">
+					<button class="btn btn-sm btn-outline-primary dropdown-toggle"
+									type="button"
+									data-toggle="dropdown">
+						{{ 'buttons.export' | translate }}
+					</button>
+					<div class="dropdown-menu">
+						<app-export restController="Report/Excel"
+												filename="Reports.xlsx"
+												[filter]="filter"
+												[contentType]="contentTypes.EXCEL">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-spreadsheet"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.excelExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+
+						<app-export restController="Report/Pdf"
+												filename="Reports.pdf"
+												[filter]="filter"
+												[contentType]="contentTypes.PDF">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-richtext"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.pdfExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+					</div>
+				</div>
+				<button type="button"
+								class="btn btn-sm btn-primary ml-3"
+								awaitable
+								[click]="search"
+								[clickParams]="[false]"
+								[clickContext]="this"
+								[disabled]="false">
+					<app-icon icon="arrow-repeat"
+										class="thicker-icon"
+										width="13"
+										height="13"></app-icon>
+					{{ 'report.generateReport' | translate }}
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;">{{ 'report.schoolYear'| translate }}:</span> {{ schoolYearName || "Всички" }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;">{{ 'report.reportType.type'| translate }}:</span> {{ reportTypeName }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;">{{ 'report.reportDate'| translate }}:</span>
+		{{ reportDate | date:'dd.MM.yyyy, HH:mm' }}ч.
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;">{{ 'report.institution'| translate }}:</span> {{ institutionName || "Всички" }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;">{{ 'report.nationality'| translate }}:</span> {{ nationalityName || "Всички" }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;">{{ 'report.country'| translate }}:</span> {{ countryName || "Всички" }}
+	</div>
+</div>
+<div class="row mb-4">
+	<div class="col-sm-12">
+		<span style="font-weight: bold;">{{ 'report.educationalQualification'| translate }}:</span> {{
+		educationalQualificationName || "Всички" }}
+	</div>
+</div>
+
+<table class="table search-table table-bordered">
+	<thead class="
+       thead-light">
+		<tr *ngIf="report.reportType != reportType.reportByCandidateWithMoreThanOneCertificate">
+			<th *ngIf="report.reportType == reportType.reportByNationality"
+					scope="col">{{ 'report.table.nationality' | translate }}</th>
+			<th *ngIf="report.reportType == reportType.reportByCountry"
+					scope="col">{{ 'report.table.country' | translate }}</th>
+			<th *ngIf="report.reportType == reportType.reportByEducationalQualification"
+					scope="col">{{ 'report.table.educationalQualification' | translate }}</th>
+			<th *ngIf="report.reportType == reportType.reportByInstitution"
+					scope="col">{{ 'report.table.institution' | translate }}</th>
+			<th scope="col">{{ 'report.table.pendingCommits' | translate }}</th>
+			<th *ngIf="!isUniversityUser"
+					scope="col">{{ 'report.table.modificationCommits' | translate }}</th>
+			<th *ngIf="!isUniversityUser"
+					scope="col">{{ 'report.table.forSignCommits' | translate }}</th>
+			<th scope="col">{{ 'report.table.certificateCommits' | translate }}</th>
+			<th scope="col">{{ 'report.table.rejectedCommits' | translate }}</th>
+			<th scope="col">{{ 'report.table.annulledCommits' | translate }}</th>
+		</tr>
+		<tr *ngIf="report.reportType == reportType.reportByCandidateWithMoreThanOneCertificate">
+			<th scope="col">{{ 'report.table.candidateName' | translate }}</th>
+			<th scope="col">{{ 'report.table.nationality' | translate }}</th>
+			<th scope="col">{{ 'report.table.candidateBirthPlace' | translate }}</th>
+			<th scope="col">{{ 'report.table.certificateCommits' | translate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngIf="!report.reports.length">
+			<td colspan="7"
+					style="text-align: center">
+				{{ 'application.table.noResults' | translate }}
+			</td>
+		</tr>
+		<ng-container *ngIf="report.reportType != reportType.reportByCandidateWithMoreThanOneCertificate">
+			<tr *ngFor="let reportItem of report.reports">
+				<td *ngIf="report.reportType == reportType.reportByNationality">{{ reportItem.nationality }}</td>
+				<td *ngIf="report.reportType == reportType.reportByCountry">{{ reportItem.country }}</td>
+				<td *ngIf="report.reportType == reportType.reportByEducationalQualification">{{
+					reportItem.educationalQualification }}</td>
+				<td *ngIf="report.reportType == reportType.reportByInstitution">{{ reportItem.institution }}</td>
+				<td style="text-align:right">{{ reportItem.pendingCommitsCount}}</td>
+				<td *ngIf="!isUniversityUser"
+						style="text-align:right">{{ reportItem.modificationCommitsCount }}</td>
+				<td *ngIf="!isUniversityUser"
+						style="text-align:right">{{ reportItem.unsignedCommitsCount }}</td>
+				<td style="text-align:right">{{ reportItem.certificateCommitsCount }}</td>
+				<td style="text-align:right">{{ reportItem.rejectedCommitsCount}}</td>
+				<td style="text-align:right">{{ reportItem.annulledCommitsCount }}</td>
+			</tr>
+		</ng-container>
+		<ng-container *ngIf="report.reportType == reportType.reportByCandidateWithMoreThanOneCertificate">
+			<tr *ngFor="let reportItem of report.reports">
+				<td>{{ reportItem.candidateLatinName }}<br>{{ reportItem.candidateCiryllicName }}</td>
+				<td>{{ reportItem.candidateNationality}}</td>
+				<td>{{ reportItem.candidateCountry }}<br>{{ reportItem.candidateBirthPlace }}, {{
+					reportItem.candidateBirthDate | date: 'dd.MM.yyyy' }}</td>
+				<td style="text-align:right">{{ reportItem.candidateCertficatesCount}}</td>
+			</tr>
+		</ng-container>
+	</tbody>
+</table>
+
+<div class="float-md-right">
+	<div>
+		<p>{{ 'report.reportCounts' | translate }}: {{ report.reports.length }}</p>
+	</div>
+</div>

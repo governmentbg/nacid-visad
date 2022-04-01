@@ -1,0 +1,61 @@
+<div class="d-flex mb-3"
+		 style="align-items: center;">
+
+	<button *ngIf="model.state == commitStates.actual"
+					type="button"
+					class="btn btn-sm btn-primary align-items-center"
+					(click)="goToSearch()">
+		<app-icon icon="chevron-left"
+							class="thicker-icon d-inline-flex"
+							width="12"
+							height="12"></app-icon>
+		{{ 'buttons.back' | translate}}
+	</button>
+
+	<button *ngIf="model.state == commitStates.history || model.state == commitStates.actualWithModification"
+					type="button"
+					class="btn btn-sm btn-primary align-items-center"
+					(click)="backClicked()">
+		<app-icon icon="chevron-left"
+							class="thicker-icon d-inline-flex"
+							width="12"
+							height="12"></app-icon>
+		{{ 'buttons.back' | translate}}
+	</button>
+
+	<div style="margin-left: auto;">
+		<div style="display: inline-block;">
+			<ng-container *ngFor="let action of actions">
+				<button class="btn btn-sm ml-2"
+								[ngClass]="action.btnClass"
+								type="button"
+								(click)="action.action()">
+					{{ action.name}}
+				</button>
+			</ng-container>
+		</div>
+
+		<a *ngIf="model.state !== commitStates.modification && model.state !== commitStates.history && model.state !== commitStates.actualWithModification && hasOtherCommits"
+			 class="btn btn-sm btn-primary ml-2"
+			 style="display: inline-flex; align-items: center;"
+			 [routerLink]="['/candidate', 'lot', model.lotId, 'history']">
+			{{ 'candidate.commit.lotHistoryTitle' | translate }}
+		</a>
+	</div>
+</div>
+
+<app-part-panel #candidatePart
+								class="mt-3"
+								style="display: block;"
+								header="{{ 'candidate.commit.title' | translate }}"
+								partName="candidatePart"
+								[(model)]="model.candidatePart"
+								[commitState]="model.state"
+								[canEditCandidate]="canEditCandidate">
+	<app-candidate-form [(model)]="model.candidatePart.entity"
+											(isValidForm)="candidatePart.hasValidData = $event"
+											[lockInput]="true"
+											[isEditMode]="model.state == commitStates.modification"></app-candidate-form>
+</app-part-panel>
+
+<app-candidate-applications [applications]="applications"></app-candidate-applications>

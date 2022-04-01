@@ -1,0 +1,252 @@
+<div class="search-panel">
+	<div class="row">
+		<div class="form-group col-sm-4">
+			<label>{{ 'user.userInfo.firstname' | translate }}</label>
+			<input name="firstName"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.firstName"
+						 maxlength="20">
+		</div>
+
+		<div class="form-group col-sm-4">
+			<label>{{ 'user.userInfo.middlename' | translate }}</label>
+			<input name="middleName"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.middleName"
+						 maxlength="20">
+		</div>
+
+		<div class="form-group col-sm-4">
+			<label>{{ 'user.userInfo.lastname' | translate }}</label>
+			<input name="lastname"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.lastName"
+						 maxlength="20">
+		</div>
+		<div class="form-group col-sm-4">
+			<label>{{ 'user.repeatable.email' | translate }}</label>
+			<input name="mail"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.email"
+						 (keypress)="sharedService.filterMail($event)"
+						 maxlength="40">
+		</div>
+
+		<div class="form-group col-sm-4">
+			<label>{{ 'user.repeatable.role' | translate }}</label>
+			<app-async-select #userRoles="ngModel"
+												name="userRoles"
+												restUrl="role"
+												[(ngModel)]="filter.role"
+												(ngModelChange)="filter.roleId = $event.id"
+												[enableBorder]="true"></app-async-select>
+		</div>
+
+		<div class="form-group col-sm-4">
+			<label>{{ 'user.search.status' | translate }}</label>
+			<select class="custom-select custom-select-sm"
+							[(ngModel)]="filter.status">
+				<option selected
+								[ngValue]="null">{{ 'user.search.userStatus.all' | translate }}</option>
+				<option [ngValue]="userStatus.active">
+					{{ 'user.search.userStatus.active' | translate }}
+				</option>
+				<option [ngValue]="userStatus.deactivated">
+					{{ 'user.search.userStatus.deactivated' | translate }}
+				</option>
+				<option [ngValue]="userStatus.inactive">
+					{{ 'user.search.userStatus.inactive' | translate }}
+				</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-8">
+			<label class="d-inline-flex align-items-center">
+				{{ 'user.userInfo.institutionName' | translate}}
+
+				<!-- <app-validation-error-message *ngIf="institutionType.invalid"
+																						class="ml-1"
+																						[control]="institutionType"
+																						[validationTexts]="validationTexts">
+							</app-validation-error-message> -->
+			</label>
+
+			<app-async-select #institutionType="ngModel"
+												name="institution"
+												restUrl="Institution/University"
+												[(ngModel)]="filter.institution"
+												(ngModelChange)="filter.institutionId = $event.id"
+												[enableBorder]="true">
+			</app-async-select>
+		</div>
+	</div>
+
+	<div class="row mt-4 mb-2">
+		<div class="col-sm-12">
+			<div class="float-md-left">
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-secondary"
+									awaitable
+									[click]="clearFilter"
+									[clickParams]="[false]"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon icon="trash"
+											width="13"
+											height="13"></app-icon>
+						{{ 'buttons.clear' | translate }}
+					</button>
+				</div>
+			</div>
+			<div class="float-md-right">
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-primary"
+									awaitable
+									routerLink="/user/create"
+									[clickParams]="[false]"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon icon="person-fill"
+											class="thicker-icon"
+											width="12"
+											height="12"></app-icon>
+						{{ 'buttons.newUser' | translate }}
+					</button>
+				</div>
+
+				<div class="dropdown ml-3"
+						 style="display: inline-block;">
+					<button class="btn btn-sm btn-outline-primary dropdown-toggle"
+									type="button"
+									data-toggle="dropdown"
+									[disabled]="!model.length">
+						{{ 'buttons.export' | translate }}
+					</button>
+					<div class="dropdown-menu">
+						<app-export restController="User/Excel"
+												filename="Users.xlsx"
+												[filter]="filter"
+												[contentType]="contentTypes.EXCEL">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-spreadsheet"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.excelExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+
+						<app-export restController="User/Pdf"
+												filename="Users.pdf"
+												[filter]="filter"
+												[contentType]="contentTypes.PDF">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-richtext"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.pdfExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+					</div>
+				</div>
+
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-primary ml-3"
+									awaitable
+									[click]="search"
+									[clickParams]="[false]"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon icon="search"
+											class="thicker-icon"
+											width="12"
+											height="12"></app-icon>
+						{{ 'buttons.search' | translate }}
+					</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<table class="table search-table table-bordered mt-5">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col"
+					style="width: 20%;">{{ 'user.tableUsers.names' | translate }}</th>
+			<th scope="col"
+					style="width: 15%">{{ 'user.repeatable.role' | translate }}</th>
+			<th scope="col"
+					style="width: 30%;">{{ 'user.tableUsers.orgranizationName' | translate }}</th>
+			<th scope="col"
+					style="width: 15%;">{{ 'user.tableUsers.contacts' | translate }}</th>
+			<th scope="col"
+					style="width: 7%;">{{ 'user.tableUsers.activeStatus' | translate }}</th>
+			<th scope="col"
+					style="width: 7%;">{{ 'user.repeatable.actions' | translate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngIf="!model.length">
+			<td colspan="6"
+					style="text-align: center">
+				{{ 'user.tableUsers.noResults' | translate }}
+			</td>
+		</tr>
+		<tr *ngFor="let user of model">
+			<td>{{ user.fullName}}</td>
+			<td>{{ user.role}}</td>
+			<td>{{ user.institutionName}}</td>
+			<td>{{ user.phone }}
+				<a href="mailto:{{ user.email }}">
+					{{ user.email}}
+				</a>
+			</td>
+			<td style="text-align: center;">
+				<p *ngIf="user.status == userStatus.deactivated || user.status == userStatus.inactive"
+					 style="color: red">
+					{{ userStatusLocalization[user.status]}}
+				</p>
+				<p *ngIf="user.status == userStatus.active">
+					{{ userStatusLocalization[user.status]}}
+				</p>
+			</td>
+			<td class="preview"
+					style="text-align: center;">
+				<a class="btn btn-sm btn-outline-primary"
+					 [routerLink]="[user.id]">
+					<app-icon icon="search"
+										width="14"
+										height="14"></app-icon>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="d-flex justify-content-between">
+	<div>
+		<button *ngIf="canLoadMore && modelCounts < totalCounts"
+						type="button"
+						class="btn btn-sm btn-secondary"
+						(click)="loadMore()">
+			{{ 'buttons.moreResults' | translate}}
+		</button>
+	</div>
+	<div>
+		<p *ngIf="modelCounts > 0">Показани {{ modelCounts }} от общо {{ totalCounts }} записа</p>
+	</div>
+</div>

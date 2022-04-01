@@ -1,0 +1,76 @@
+<footer>
+  <div id="footer-links">
+    <div class="container">
+
+      <div class="row justify-content-center">
+        <a href="https://nacid.bg/bg/"
+           target="_blank">
+          <img class=""
+               src="assets/nacid_logo.png" /> </a>
+      </div>
+
+      <div class="row justify-content-center">
+        <a href="https://nacid.bg/bg/"
+           target="_blank">
+          <h5>{{ 'common.title_nacid' | translate }}</h5>
+        </a>
+      </div>
+
+
+      <div class="row justify-content-center mt-1">
+        <div class="col-sm-12 flex-column"
+             style="font-size: 14px; text-align: center;">
+          <a href="assets/documents/PrivacyPolicy.pdf"
+             target="_blank">
+            {{ 'common.policy' | translate }}
+          </a>
+          <span class="hide"> | </span>
+          <a href="https://nacid.bg/bg/contacts"
+             target="_blank">
+            {{ 'feedback.title' | translate }}
+          </a>
+          <!-- <span class="hide"> | </span>
+          <span class="show-about"
+                (click)="showAboutSection = !showAboutSection; firstClick = true;">
+            {{ 'common.about' | translate }}
+          </span> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-light footer-copyright">
+    <div class="container mb-3">
+      <div class="d-flex justify-content-center row">
+        <img class="col-12 align-self-center"
+             style="max-width: 300px; padding-bottom: 32px;"
+             [src]="translate.currentLang == 'bg' ? 'assets/EU_SEFright.png' : 'assets/EU_SEFright_en.png'">
+        <img class="col-12"
+             style="max-width: 300px; padding-bottom: 32px;"
+             [src]="translate.currentLang == 'bg' ? 'assets/logo-bg-right-no-back.png' : 'assets/logo-bg-right-no-back_en.png' ">
+      </div>
+      <div>
+        <div class="row mb-3">
+          <span style="color: #8e8e8e;">
+            {{'common.footer_info' | translate}}
+          </span>
+        </div>
+        <div>
+          <a href="http://www.eufunds.bg"
+             target="_blank"
+             class="default-a mb-3">
+            www.eufunds.bg
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-center mb-1 mt-1">
+    <div class="col-10"
+         style="text-align: center; font-size: 12px;">{{ 'common.title_visaD' | translate }}.
+      ©{{ currentYear }}&nbsp;{{ 'common.title_nacid' | translate }}.{{ 'common.rights_reserved' | translate }}.
+    </div>
+  </div>
+</footer>

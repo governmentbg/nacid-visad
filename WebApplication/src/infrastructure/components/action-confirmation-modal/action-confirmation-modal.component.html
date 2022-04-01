@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<p>{{ confirmationMessage }}</p>
+</div>
+
+<div class="modal-body"
+		 *ngIf="showTextArea">
+	<form #resultForm="ngForm">
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label class="d-inline-flex">
+
+					<ng-container *ngIf="showTextArea">
+						{{ textAreaTitle }}
+					</ng-container>
+
+					<!-- <ng-container *ngIf="confirmationMessage == 'Сигурни ли сте, че искате да изтриете партидата?'">
+						Мотиви за заличаване на партидата
+					</ng-container> -->
+				</label>
+				<textarea name="description"
+									class="form-control form-control-sm"
+									maxlength="256"
+									[(ngModel)]="description"
+									rows="5"></textarea>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button type="button"
+					class="btn btn-sm btn-primary"
+					(click)="closeModal()">{{ 'buttons.continue' | translate }}</button>
+
+	<button type="button"
+					class="btn btn-sm btn-outline-dark"
+					ngbAutofocus
+					(click)="modal.close(false)">{{ 'buttons.cancel' | translate }}</button>
+</div>

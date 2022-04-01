@@ -1,0 +1,46 @@
+header {
+	background-color: var(--visad-primary-color);
+	padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+header .title {
+	margin-left: .5em;
+}
+
+header .title > h5,
+header .title > h6 {
+	margin: 0;
+}
+
+.logo-link > img {
+	width: 2.5em;
+}
+
+@media screen and (max-width: 991px) {
+  div.title {
+    display: none;
+  }
+
+   a.logo-link {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  div.nav {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  div.title {
+    margin-right: 100px;
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width:992px) {
+  div.title {
+    margin-right: 20px;
+  }
+}

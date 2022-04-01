@@ -1,0 +1,181 @@
+<button type="button"
+				class="btn btn-sm btn-primary mb-4 align-items-center"
+				(click)="backClicked()">
+	<app-icon icon="chevron-left"
+						class="thicker-icon d-inline-flex"
+						width="12"
+						height="12"></app-icon>
+	{{ 'buttons.back' | translate }}
+</button>
+
+<div class="card">
+	<div class="card-header"
+			 style="display: flex; align-items: center; justify-content: space-between;">
+		{{ 'user.userInfo.titleEdit' | translate}}
+
+		<div style="margin-left:auto">
+			<ng-container *ngIf="!isEditMode">
+				<button *ngIf="model.status == userStatus.active"
+								class="btn btn-sm btn-danger mr-1"
+								(click)="changeUserActiveStatus()">
+					{{ 'user.userInfo.deactivate' | translate}}
+				</button>
+
+				<button *ngIf="model.status == userStatus.deactivated"
+								class="btn btn-sm btn-primary mr-1"
+								(click)="changeUserActiveStatus()">
+					{{ 'user.userInfo.activate' | translate}}
+				</button>
+
+				<button *ngIf="model.status == userStatus.inactive"
+								class="btn btn-sm btn-primary mr-1"
+								(click)="sendActivationLink(model.id)">
+					{{ 'user.userInfo.inactive' | translate}}
+				</button>
+			</ng-container>
+			<ng-container>
+				<button *ngIf="!isEditMode"
+								class="btn btn-sm btn-primary"
+								(click)="edit()">
+					{{ 'buttons.edit' | translate}}
+				</button>
+
+				<ng-container *ngIf="isEditMode">
+					<button class="btn btn-sm btn-primary mr-1"
+									(click)="save()"
+									[disabled]="!userEditForm.valid">
+						{{ 'buttons.save' | translate}}
+					</button>
+
+					<button class="btn btn-sm btn-secondary"
+									(click)="cancelEdit()">
+						{{ 'buttons.cancel' | translate}}
+					</button>
+				</ng-container>
+			</ng-container>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<form #userEditForm="ngForm">
+			<fieldset [disabled]="!isEditMode">
+				<div class="row">
+					<div class="form-group col-sm-12 col-md-4">
+						<label class="d-inline-flex">
+							{{ 'user.userInfo.firstname' | translate}}
+						</label>
+						<input #firstName="ngModel"
+									 type="text"
+									 name="firstName"
+									 class="form-control form-control-sm"
+									 [(ngModel)]="model.firstName"
+									 required
+									 [pattern]="cyrillicRegExp"
+									 minlength="2"
+									 maxlength="20">
+					</div>
+
+					<div class="form-group col-sm-12 col-md-4">
+						<label class="d-inline-flex">{{ 'user.userInfo.middlename' | translate}}</label>
+						<input type="text"
+									 name="middleName"
+									 class="form-control form-control-sm"
+									 [(ngModel)]="model.middleName"
+									 [pattern]="cyrillicRegExp"
+									 minlength="2"
+									 maxlength="20">
+					</div>
+
+					<div class="form-group col-sm-12 col-md-4">
+						<label class="d-inline-flex">
+							{{ 'user.userInfo.lastName' | translate}}
+						</label>
+						<input #lastName="ngModel"
+									 type="text"
+									 name="lastName"
+									 class="form-control form-control-sm"
+									 [(ngModel)]="model.lastName"
+									 required
+									 [pattern]="cyrillicRegExp"
+									 minlength="2"
+									 maxlength="20">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group col-sm-12 col-md-4">
+						<label class="d-inline-flex">
+							{{ 'user.userInfo.emailUsername' | translate}}
+						</label>
+						<input #email="ngModel"
+									 type="text"
+									 name="mail"
+									 class="form-control form-control-sm"
+									 [(ngModel)]="model.email"
+									 (keypress)="sharedService.filterMail($event)"
+									 required
+									 pattern="{{emailRegex}}"
+									 maxlength="40">
+					</div>
+
+					<div class="form-group col-sm-12 col-md-4">
+						<label class="d-inline-flex">
+							{{ 'user.repeatable.phone' | translate}}
+						</label>
+						<input #phone="ngModel"
+									 type="text"
+									 name="phone"
+									 class="form-control form-control-sm"
+									 [(ngModel)]="model.phone"
+									 required
+									 (keypress)="sharedService.filterPhone($event, model.phone)"
+									 minlength="9"
+									 maxlength="14">
+					</div>
+
+					<div class="form-group col-sm-12 col-md-4">
+						<label name="role">{{ 'user.repeatable.role' | translate}}</label>
+						<select class="custom-select custom-select-sm"
+										name="role"
+										[(ngModel)]="model.role"
+										[compareWith]="roleCompare">
+							<option *ngFor="let role of roles$ | async, let i = index"
+											[ngValue]="role">
+								{{ role.name }}
+							</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row"
+						 *ngIf="model.institution != null || model.role.alias == universityUser">
+					<div class="form-group col-sm-12 col-md-8">
+						<label class="d-inline-flex">
+							{{ 'user.userInfo.institutionName' | translate}}
+						</label>
+
+						<app-async-select #institutionType="ngModel"
+															name="institution"
+															restUrl="Institution/Select"
+															[(ngModel)]="model.institution"
+															(ngModelChange)="model.institutionId = $event.id"
+															[disabled]="!isEditMode || model.role.alias !== universityUser"
+															required></app-async-select>
+					</div>
+
+					<div class="form-group col-sm-12 col-md-4">
+						<label class="d-inline-flex">
+							{{ 'user.userInfo.position' | translate}}
+						</label>
+						<input #position="ngModel"
+									 type="text"
+									 name="position"
+									 class="form-control form-control-sm"
+									 [(ngModel)]="model.position"
+									 maxlength="35">
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

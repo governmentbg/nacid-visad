@@ -1,0 +1,372 @@
+<ng-form>
+	<div class="row mt-4 mr-3 ml-3">
+		<div class="form-group col-sm-12 col-md-3">
+			<app-image-select #imageFile="ngModel"
+												name="imageFile"
+												[(ngModel)]="model.imgFile"
+												[disabled]="!isEditMode"
+												required
+												[image]="model.imgFile">
+			</app-image-select>
+
+			<ng-container *ngIf="!isEditMode">
+				<label class="d-inline-flex">
+					{{ 'application.new.candidate.image' | translate }}
+				</label>
+				<app-file-upload #attachedFile="ngModel"
+												 name="imgFile"
+												 [(ngModel)]="model.imgFile"
+												 [disabled]="!isEditMode"></app-file-upload>
+			</ng-container>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-9">
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-4">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.country' | translate }}
+					</label>
+
+					<app-async-select #country="ngModel"
+														name="country"
+														restUrl="Country/Select"
+														[(ngModel)]="model.country"
+														[disabled]="!isEditMode || isModalWindow || lockInput"
+														[required]="isEditMode"
+														required>
+					</app-async-select>
+				</div>
+
+				<div class="form-group col-sm-12 col-md-5">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.birthPlace' | translate }}
+					</label>
+
+					<input #birthPlace="ngModel"
+								 type="text"
+								 name="birthPlace"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.birthPlace"
+								 [disabled]="!isEditMode || lockInput"
+								 [pattern]="latinNamesRegExp"
+								 (keypress)="sharedService.onlyLatinLetters($event)"
+								 required>
+				</div>
+				<div class="form-group col-sm-12 col-md-3">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.birthDate' | translate }}
+					</label>
+					<div class="input-group input-group-sm">
+						<input name="birthDate"
+									 class="form-control"
+									 [ngStyle]="{'border': birthDate.status == 'INVALID' ? '1px solid #dc3545' : null}"
+									 ngbDatepicker
+									 #birthDate="ngModel"
+									 #birthDatepicker="ngbDatepicker"
+									 [minDate]="minBirthdate"
+									 [maxDate]="maxBirthdate"
+									 placeholder="дд/мм/гггг"
+									 [(ngModel)]="model.birthDate"
+									 [disabled]="!isEditMode || isModalWindow || lockInput"
+									 validDate
+									 required>
+						<div class="input-group-append">
+							<button class="btn btn-sm btn-outline-primary"
+											(click)="birthDatepicker.toggle()"
+											[disabled]="!isEditMode"
+											type="button">
+								<app-icon icon="calendar2-event"
+													width="12"
+													height="12"></app-icon>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.firstname' | translate }}
+					</label>
+
+					<input #firstName="ngModel"
+								 type="text"
+								 name="firstName"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.firstName"
+								 [disabled]="!isEditMode"
+								 required
+								 [pattern]="latinNamesRegExp"
+								 (keypress)="sharedService.onlyLatinLetters($event)"
+								 minlength="2"
+								 maxlength="30">
+				</div>
+
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.middlename' | translate }}
+					</label>
+
+					<input #lastName="ngModel"
+								 type="text"
+								 name="lastName"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.lastName"
+								 [disabled]="!isEditMode"
+								 required
+								 [pattern]="latinNamesRegExp"
+								 (keypress)="sharedService.onlyLatinLetters($event)"
+								 minlength="2"
+								 maxlength="30">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-12">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.otherNames' | translate }}
+					</label>
+
+					<input #otherNames="ngModel"
+								 type="text"
+								 name="otherNames"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.otherNames"
+								 [disabled]="!isEditMode"
+								 [pattern]="latinNamesRegExp"
+								 (keypress)="sharedService.onlyLatinLetters($event)"
+								 minlength="2"
+								 maxlength="60">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-10">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.nationality' | translate }}
+					</label>
+
+					<app-async-select #nationality="ngModel"
+														name="nationality"
+														restUrl="Country/Select"
+														[(ngModel)]="model.nationality"
+														(ngModelChange)="checkNationality($event)"
+														[disabled]="!isEditMode"
+														[required]="isEditMode"
+														required>
+					</app-async-select>
+				</div>
+			</div>
+
+			<div *ngFor="let nationality of model.otherNationalities; let i = index; trackBy: sharedService.trackByFn">
+				<div class="row">
+					<div class="form-group col-sm-12 col-md-10">
+						<label class="d-inline-flex">
+							{{ 'application.new.candidate.otherNationality' | translate }}
+						</label>
+						<app-async-select #otherNationality="ngModel"
+															name="otherNationality--{{i}}"
+															restUrl="Country/Select"
+															[(ngModel)]="model.otherNationalities[i]"
+															[disabled]="!isEditMode"
+															[required]="isEditMode"
+															(ngModelChange)="checkOtherNationality($event)"
+															required>
+						</app-async-select>
+					</div>
+
+					<div class="col-sm-12 col-md-2"
+							 *ngIf="isEditMode">
+						<div class="float-md-center">
+							<label class="d-inline-flex">
+							</label>
+							<button *ngIf="model.otherNationalities.length > 0"
+											type="button"
+											class="btn btn-sm btn-secondary"
+											style="display: flex; align-items: center; justify-content: center; width: 100%;"
+											(click)="removeNationality(i)">
+								<app-icon icon="trash"
+													class="mr-1"></app-icon>
+								{{ 'buttons.delete' | translate }}
+							</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div *ngIf="isEditMode"
+					 class="row mb-3">
+				<div class="col-sm-12 col-md-5">
+					<button type="button"
+									class="btn btn-sm btn-primary"
+									style="display: flex; align-items: center; justify-content: center; width: 100%;"
+									(click)="addNationality()">
+						<app-icon icon="plus-circle"
+											class="thicker-icon mr-1"></app-icon>
+						{{ 'application.new.candidate.otherNationality' | translate }}
+					</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-5">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.passport' | translate }}
+					</label>
+					<app-file-upload #attachedFile="ngModel"
+													 name="passportFile"
+													 [(ngModel)]="model.document.attachedFile"
+													 [disabled]="!isEditMode"
+													 [required]="isEditMode"></app-file-upload>
+				</div>
+
+				<div class="form-group col-sm-12 col-md-4">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.passportNumber' | translate }}
+					</label>
+
+					<input #passportNumber="ngModel"
+								 type="text"
+								 name="passportNumber"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.passportNumber"
+								 [disabled]="!isEditMode"
+								 [pattern]="passportRegExp"
+								 required
+								 minlength="7"
+								 maxlength="22">
+				</div>
+
+				<div class="form-group col-sm-12 col-md-3">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.passportValidUntil' | translate }}
+					</label>
+					<div class="input-group input-group-sm">
+						<input name="passportValidUntil"
+									 class="form-control"
+									 [ngStyle]="{'border': passportValidUntil.status == 'INVALID' ? '1px solid #dc3545' : null}"
+									 ngbDatepicker
+									 #passportValidUntil="ngModel"
+									 #passportValidUntilpicker="ngbDatepicker"
+									 [(ngModel)]="model.passportValidUntil"
+									 (keypress)="sharedService.filterDate($event)"
+									 [disabled]="!isEditMode"
+									 placeholder="дд/мм/гггг"
+									 validDate
+									 required
+									 maxlength="20">
+						<div class="input-group-append">
+							<button class="btn btn-sm btn-outline-primary"
+											(click)="passportValidUntilpicker.toggle()"
+											[disabled]="!isEditMode"
+											type="button">
+								<app-icon icon="calendar2-event"
+													width="12"
+													height="12"></app-icon>
+							</button>
+						</div>
+						<div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.firstnameCyrillic' | translate }}
+					</label>
+
+					<input #firstNameCyrillic="ngModel"
+								 type="text"
+								 name="firstNameCyrillic"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.firstNameCyrillic"
+								 [disabled]="!isEditMode"
+								 required
+								 [pattern]="cyrillicRegExp"
+								 (keypress)="sharedService.onlyCyrillicLetters($event)"
+								 minlength="2"
+								 maxlength="30">
+				</div>
+
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.lastnameCyrillic' | translate }}
+					</label>
+
+					<input #lastNameCyrillic="ngModel"
+								 type="text"
+								 name="lastNameCyrillic"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.lastNameCyrillic"
+								 [disabled]="!isEditMode"
+								 required
+								 [pattern]="cyrillicRegExp"
+								 (keypress)="sharedService.onlyCyrillicLetters($event)"
+								 minlength="2"
+								 maxlength="30">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-12">
+					<label class="d-inline-flex">
+						{{ 'application.new.candidate.otherNamesCyrillic' | translate }}
+					</label>
+
+					<input #otherNamesCyrillic="ngModel"
+								 type="text"
+								 name="otherNamesCyrillic"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.otherNamesCyrillic"
+								 [disabled]="!isEditMode"
+								 [pattern]="cyrillicRegExp"
+								 (keypress)="sharedService.onlyCyrillicLetters($event)"
+								 minlength="2"
+								 maxlength="60">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="d-inline-flex">
+						{{ 'application.new.telephone' | translate }}
+					</label>
+
+					<input #phone="ngModel"
+								 type="text"
+								 name="phone"
+								 autocomplete="off"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.phone"
+								 [disabled]="!isEditMode"
+								 (keypress)="sharedService.filterPhone($event, model.phone)"
+								 appBlockCopyPaste
+								 required
+								 minlength="9"
+								 maxlength="22">
+				</div>
+
+				<div class="form-group col-sm-12 col-md-6">
+					<label class="d-inline-flex">
+						{{ 'application.new.email' | translate }}
+					</label>
+
+					<input #mail="ngModel"
+								 type="email"
+								 name="mail"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.mail"
+								 (keypress)="sharedService.filterMail($event)"
+								 [disabled]="!isEditMode"
+								 required
+								 [pattern]="emailRegExp">
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-form>

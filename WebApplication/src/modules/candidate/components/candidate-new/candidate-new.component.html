@@ -1,0 +1,67 @@
+<!-- <div class="d-flex mb-1">
+	<div style="margin-left: auto;">
+		<button class="btn btn-sm btn-success mr-1"
+						style="display: inline-flex; align-items: center;"
+						(click)="save()"
+						[disabled]="!canSubmit">
+			<app-icon icon="pencil"
+								class="mr-1"
+								width="14"
+								height="14"></app-icon>
+			{{ 'candidate.new.saveBtn' | translate }}
+		</button>
+
+		<a class="btn btn-sm btn-danger"
+			 style="display: inline-flex; align-items: center;"
+			 (click)="close()">
+			<app-icon icon="x"
+								width="20"
+								height="20"></app-icon>
+			{{ 'buttons.cancel' | translate }}
+		</a>
+	</div>
+</div> -->
+
+<!-- <app-part-panel class="mt-3"
+								style="display: block;"
+								header="{{ 'candidate.new.title' | translate }}">
+	<app-candidate-form [(model)]="model.candidate"
+											(isValidForm)="changeFormValidStatus('candidate', $event)"
+											[isEditMode]="true"></app-candidate-form>
+</app-part-panel> -->
+
+<div class="card">
+	<div class="card-header"
+			 style="display: flex; align-items: center; justify-content: space-between;">
+		{{ 'candidate.new.title' | translate }}
+
+		<div class="d-flex mb-1">
+			<div style="margin-left: auto;">
+				<button class="btn btn-primary mr-3 pl-4 pr-4"
+								style="display: inline-flex; align-items: center;"
+								(click)="save()"
+								[disabled]="!canSubmit">
+					<app-icon icon="pencil"
+										class="mr-1"
+										width="14"
+										height="14"></app-icon>
+					{{ 'candidate.new.saveCandidate' | translate }}
+				</button>
+
+				<a class="btn btn-secondary pl-4 pr-4"
+					 style="display: inline-flex; align-items: center;"
+					 (click)="close()">
+					<app-icon icon="x"
+										width="20"
+										height="20"></app-icon>
+					{{ 'buttons.cancel' | translate }}
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<app-candidate-form [(model)]="model.candidate"
+											(isValidForm)="changeFormValidStatus('candidate', $event)"
+											[isEditMode]="true"></app-candidate-form>
+
+</div>

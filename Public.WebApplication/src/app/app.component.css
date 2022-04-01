@@ -1,0 +1,58 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+header {
+	background-color: white;
+	padding-top: .1em;
+  padding-bottom: .5em;
+}
+
+header .title {
+	margin-left: .5em;
+}
+
+
+.logo-link {
+  margin-right: 0px !important;
+  padding-right: 3px !important;
+  min-width: 65px;
+}
+
+.logo-link > img {
+	width: 2.5em;
+}
+
+.lang {
+  margin-left: 5px;
+  font-weight: normal;
+}
+
+.link.primary {
+  color: #0072b5;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #ff9800;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.row {
+  justify-content: space-between;
+}
+
+/* @media screen and (max-width: 285px){
+	.d-flex{
+    width: 130px;
+  }
+} */

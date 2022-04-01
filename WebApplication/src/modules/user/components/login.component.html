@@ -1,0 +1,58 @@
+<!-- <unauthorized-user-info class="my-3"></unauthorized-user-info> -->
+
+<form #loginForm="ngForm"
+			style="padding: 3em; box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15)">
+	<h5 style="text-align: center;"
+			class="pb-3">
+		{{ 'user.login.title' | translate }}
+	</h5>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-4 offset-md-4">
+			<label class="d-inline-flex">
+				{{ 'user.repeatable.username' | translate }}
+			</label>
+
+			<input type="text"
+						 name="username"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.username"
+						 required>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4 offset-md-4">
+			<label class="d-inline-flex">
+				{{ 'user.repeatable.password' | translate }}
+			</label>
+
+			<input type="text"
+						 name="password"
+						 type="password"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="model.password"
+						 required>
+		</div>
+
+		<div class="col-sm-12 col-md-4 offset-md-4">
+			<button class="btn btn-primary"
+							(click)="login()"
+							style="width: 100%;"
+							[disabled]="!loginForm.valid">
+				{{ 'user.login.loginButton' | translate }}
+			</button>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4 offset-md-4 mt-2"
+				 style="text-align: center;">
+			<a [routerLink]="['/forgottenPassword']">
+				{{ 'user.login.forgottenPassword' | translate }}
+			</a>
+		</div>
+
+		<div *ngIf="hasInvalidCredentials"
+				 class="col-sm-12 mt-3"
+				 style="text-align: center; color: #ff0000; font-style: italic;">
+			{{ 'user.login.invalidCredentials' | translate }}
+		</div>
+	</div>
+</form>

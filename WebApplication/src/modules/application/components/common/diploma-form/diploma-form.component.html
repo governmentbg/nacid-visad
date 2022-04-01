@@ -1,0 +1,252 @@
+<ng-form>
+	<div *ngFor="let diploma of model.diplomaFiles; let i = index, trackBy: sharedService.trackByFn"
+			 class="multi-container">
+		<h6 style="font-weight: bold;">Диплома {{i + 1}}</h6>
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-3">
+				<label class="d-inline-flex align-items-center">
+					{{ 'application.new.diploma.country' | translate }}
+				</label>
+
+				<app-async-select #countryType="ngModel"
+													name="countryType--{{i}}"
+													restUrl="Country/Select"
+													[(ngModel)]="model.diplomaFiles[i].country"
+													[disabled]="model.diplomaFiles[i].disabled || !isEditMode"
+													[required]="isEditMode"></app-async-select>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-2">
+				<label class="d-inline-flex">
+					{{ 'application.new.diploma.city' | translate }}
+				</label>
+
+				<input #city="ngModel"
+							 type="text"
+							 name="city--{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.diplomaFiles[i].city"
+							 [disabled]="model.diplomaFiles[i].disabled || !isEditMode"
+							 required
+							 [pattern]="latinAndCyrillicNamesRegExp"
+							 minlength="3"
+							 maxlength="30">
+			</div>
+			<div class="form-group col-sm-12 col-md-7">
+				<label class="d-inline-flex">
+					{{ 'application.new.diploma.organizationName' | translate }}
+				</label>
+
+				<input #organizationName="ngModel"
+							 type="text"
+							 name="organizationName--{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.diplomaFiles[i].organizationName"
+							 [disabled]="model.diplomaFiles[i].disabled || !isEditMode"
+							 [pattern]="lettersAndNumbersRegExp"
+							 required
+							 minlength="5"
+							 maxlength="70">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-3">
+				<label class="d-inline-flex align-items-center">
+					{{ 'application.new.diploma.diplomaType' | translate }}
+				</label>
+
+				<app-async-select #diplomaType="ngModel"
+													name="diplomaType--{{i}}"
+													restUrl="DiplomaType/Select"
+													[(ngModel)]="model.diplomaFiles[i].type"
+													[disabled]="model.diplomaFiles[i].disabled || !isEditMode || !model.diplomaFiles[i].canEdit"
+													[required]="isEditMode"></app-async-select>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-3">
+				<label class="d-inline-flex align-items-center">
+					{{ 'application.new.diploma.diplomaNumber' | translate }}
+					<app-help-tooltip class="ml-1"
+														tooltipText="Ако дипломата няма номер, моля въведете четири нули">
+					</app-help-tooltip>
+				</label>
+
+				<input #diplomaNumber="ngModel"
+							 type="text"
+							 name="diplomaNumber--{{i}}"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.diplomaFiles[i].diplomaNumber"
+							 [disabled]="model.diplomaFiles[i].disabled || !isEditMode"
+							 required
+							 [pattern]="diplomaNumberRegExp"
+							 minlength="4"
+							 maxlength="20">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-2">
+				<label class="d-inline-flex">
+					{{ 'application.new.diploma.dateOfIssue' | translate }}
+				</label>
+				<div *ngIf="model.diplomaFiles[i].disabled || !isEditMode"
+						 class="input-group input-group-sm">
+					<input name="issuedDate--{{i}}"
+								 class="form-control"
+								 ngbDatepicker
+								 #issuedDate="ngModel"
+								 #birthDatepicker="ngbDatepicker"
+								 [minDate]="minIssuedDate"
+								 [maxDate]="maxIssuedDate"
+								 [(ngModel)]="model.diplomaFiles[i].issuedDate"
+								 [readonly]="true">
+				</div>
+
+				<div class="input-group input-group-sm"
+						 *ngIf="!model.diplomaFiles[i].disabled && isEditMode">
+					<input name="issuedDate--{{i}}"
+								 class="form-control"
+								 ngbDatepicker
+								 [ngStyle]="{'border': issuedDate.status == 'INVALID' ? '1px solid #dc3545' : null}"
+								 #issuedDate="ngModel"
+								 #birthDatepicker="ngbDatepicker"
+								 [minDate]="minIssuedDate"
+								 [maxDate]="maxIssuedDate"
+								 placeholder="дд/мм/гггг"
+								 [(ngModel)]="model.diplomaFiles[i].issuedDate"
+								 (keypress)="sharedService.filterDate($event)"
+								 [disabled]="!isEditMode"
+								 validDate
+								 required
+								 maxlength="20">
+					<div class="input-group-append">
+						<button class="btn btn-sm btn-outline-primary"
+										(click)="birthDatepicker.toggle()"
+										type="button"
+										[disabled]="!isEditMode">
+							<app-icon icon="calendar2-event"
+												width="12"
+												height="12"></app-icon>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12 col-md-4">
+				<label class="d-inline-flex">
+					{{ 'application.new.diploma.copyOfDiploma' | translate }}
+
+				</label>
+				<app-file-upload #diplomaDocumentFile="ngModel"
+												 name="diplomaDocumentFile--{{i}}"
+												 [(ngModel)]="model.diplomaFiles[i].diplomaDocumentFile"
+												 [disabled]="model.diplomaFiles[i].disabled || !isEditMode"
+												 [required]="isEditMode"></app-file-upload>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-4"
+					 *ngFor="let attachedFile of model.diplomaFiles[i].attachedFiles; let x = index; trackBy: sharedService.trackByFn">
+				<label class="d-inline-flex">
+					{{ 'application.new.diploma.attachedFile' | translate }}
+				</label>
+				<div class="d-flex">
+					<app-file-upload #attachedFile="ngModel"
+													 name="attachedFile--{{i}}-{{x}}"
+													 style="width: 90%; margin-right: 0.7em;"
+													 [(ngModel)]="model.diplomaFiles[i].attachedFiles[x]"
+													 [disabled]="model.diplomaFiles[i].disabled || !isEditMode"
+													 [required]="isEditMode"></app-file-upload>
+
+					<button *ngIf="!model.diplomaFiles[i].disabled && isEditMode"
+									type="button"
+									class="btn btn-sm btn-secondary"
+									style="display: flex; align-items: center; justify-content: center; width: 10%;"
+									(click)="removeAttachedFile(i, x)">
+						<app-icon icon="trash"></app-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 col-md-3 mb-2">
+				<button *ngIf="!model.diplomaFiles[i].disabled && isEditMode"
+								type="button"
+								class="btn btn-sm btn-primary"
+								style="display: flex; align-items: center; justify-content: center; width: 100%;"
+								(click)="addAttachedFile(i)">
+					<app-icon icon="plus-circle"
+										class="thicker-icon mr-1"></app-icon>
+					{{ 'buttons.addDocument' | translate }}
+				</button>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-4 float-md-left">
+				<div class="float-md-left">
+					<button *ngIf="!model.diplomaFiles[i].disabled && isEditMode && model.diplomaFiles.length > 1"
+									type="button"
+									class="btn btn-sm btn-secondary"
+									style="display: flex; align-items: center; justify-content: center; width: 100%;"
+									(click)="removeDiploma(i)">
+						<app-icon icon="trash"
+											class="mr-1"></app-icon>
+						{{ 'application.new.diploma.removeDiploma' | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="isEditMode"
+			 class="row mt-1">
+		<div class="col-sm-12 col-md-3">
+			<button type="button"
+							class="btn btn-sm btn-primary"
+							style="display: flex; align-items: center; justify-content: center; width: 100%;"
+							(click)="addDiploma()">
+				<app-icon icon="plus-circle"
+									class="thicker-icon mr-1"></app-icon>
+				{{ 'application.new.diploma.addDiploma' | translate }}
+			</button>
+		</div>
+	</div>
+
+	<div *ngIf="showNacidFiles || model.rectorDecisionDocumentFile != null"
+			 class="row align-items-center mt-4">
+		<div class="form-group col-sm-12 col-md-4">
+			<label class="d-inline-flex">
+				{{ 'application.new.diploma.rectorDecision' | translate }}
+
+			</label>
+			<app-file-upload #rectorDecisionDocument="ngModel"
+											 name="rectorDecisionDocument"
+											 [(ngModel)]="model.rectorDecisionDocumentFile"
+											 [disabled]="!isEditMode"
+											 [required]="isEditMode"></app-file-upload>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label class="d-inline-flex">
+				{{ 'application.new.diploma.nacidRecommendation' | translate }}
+
+			</label>
+			<app-file-upload #nacidRecommendation="ngModel"
+											 name="nacidRecommendation"
+											 [(ngModel)]="model.nacidRecommendation"
+											 [showFileUrl]="!isEditMode ? true : false">
+			</app-file-upload>
+		</div>
+	</div>
+
+	<div class="row mt-3">
+		<div class="form-group col-sm-12">
+			<label>{{ 'application.new.diploma.description' | translate }}</label>
+			<textarea class="form-control"
+								rows="3"
+								maxlength="256"
+								name="description"
+								[(ngModel)]="model.description"
+								[disabled]="!isEditMode"></textarea>
+		</div>
+	</div>
+</ng-form>

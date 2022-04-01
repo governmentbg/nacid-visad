@@ -1,0 +1,17 @@
+<div class="modal-body">
+	<p>
+		{{ 'application.partEditWarning' | translate }}
+	</p>
+
+	<ul>
+		<li *ngFor="let partInEditMode of partsInEditMode">
+			{{ partInEditMode }}
+		</li>
+	</ul>
+</div>
+
+<div class="modal-footer">
+	<button type="button"
+					class="btn btn-primary"
+					(click)="modal.close()">{{ 'buttons.close' | translate }}</button>
+</div>

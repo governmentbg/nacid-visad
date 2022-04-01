@@ -1,0 +1,258 @@
+<div class="search-panel">
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-8">
+			<label>{{ 'candidate.search.name' | translate }}</label>
+			<input name="name"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.name"
+						 maxlength="80">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'candidate.search.nationality' | translate }}</label>
+			<app-async-select name="candidateNationality"
+												restUrl="Country/Select"
+												[(ngModel)]="filter.nationality"
+												(ngModelChange)="filter.nationalityId = $event.id"
+												[enableBorder]="true"></app-async-select>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'candidate.search.country' | translate }}</label>
+			<app-async-select name="candidateCountry"
+												restUrl="Country/Select"
+												[(ngModel)]="filter.country"
+												(ngModelChange)="filter.countryId = $event.id"
+												[enableBorder]="true"></app-async-select>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'candidate.search.birthPlace' | translate }}</label>
+			<input class="form-control form-control-sm"
+						 name="birthPlace"
+						 [(ngModel)]="filter.birthPlace">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-2">
+			<label>{{ 'candidate.search.birthdayFrom' | translate }}</label>
+			<div class="input-group input-group-sm">
+				<input class="form-control"
+							 ngbDatepicker
+							 [ngStyle]="{'border': birthdayFrom.status == 'INVALID' ? '1px solid #dc3545' : null}"
+							 name="birthdayFrom"
+							 #birthdayFrom="ngModel"
+							 #birthDatepickerFrom="ngbDatepicker"
+							 validDate
+							 placeholder="дд/мм/гггг"
+							 [minDate]="{ year: 1900, month: 1, day: 1 }"
+							 [maxDate]="maxDate"
+							 [(ngModel)]="filter.birthDateFrom"
+							 maxlength="10">
+				<div class="input-group-append">
+					<button class="btn btn-sm btn-outline-primary"
+									(click)="birthDatepickerFrom.toggle()"
+									type="button">
+						<app-icon icon="calendar2-event"
+											width="12"
+											height="12"></app-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-2">
+			<label>{{ 'candidate.search.birthdayTo' | translate }}</label>
+			<div class="input-group input-group-sm">
+				<input class="form-control"
+							 ngbDatepicker
+							 name="birthdayTo"
+							 [ngStyle]="{'border': birthdayTo.status == 'INVALID' ? '1px solid #dc3545' : null}"
+							 #birthdayTo="ngModel"
+							 #birthDatepickerTo="ngbDatepicker"
+							 validDate
+							 placeholder="дд/мм/гггг"
+							 [minDate]="{ year: 1900, month: 1, day: 1 }"
+							 [maxDate]="maxDate"
+							 [(ngModel)]="filter.birthDateTo"
+							 maxlength="10">
+				<div class="input-group-append">
+					<button class="btn btn-sm btn-outline-primary"
+									(click)="birthDatepickerTo.toggle()"
+									type="button">
+						<app-icon icon="calendar2-event"
+											width="12"
+											height="12"></app-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'candidate.search.passportNumber' | translate }}</label>
+			<input name="passportNumber"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.passportNumber"
+						 maxlength="22">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'candidate.search.email' | translate }}</label>
+			<input name="mail"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.mail"
+						 (keypress)="sharedService.filterMail($event)"
+						 maxlength="40">
+		</div>
+
+		<div class="form-group col-sm-12 col-md-4">
+			<label>{{ 'candidate.search.phone' | translate }}</label>
+			<input name="phone"
+						 class="form-control form-control-sm"
+						 [(ngModel)]="filter.phone"
+						 (keypress)="sharedService.filterPhone($event, filter.phone)"
+						 maxlength="22">
+		</div>
+	</div>
+
+	<div class="row mt-4 mb-2">
+		<div class="col-sm-12">
+			<div class="float-md-left">
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-secondary"
+									awaitable
+									[click]="clearFilter"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon icon="trash"
+											width="12"
+											height="12"></app-icon>
+						{{ 'buttons.clear' | translate }}
+					</button>
+				</div>
+			</div>
+
+			<div class="float-md-right d-flex">
+				<div class="dropdown ml-3"
+						 style="display: inline-block;">
+					<button class="btn btn-sm btn-outline-primary dropdown-toggle"
+									type="button"
+									data-toggle="dropdown"
+									[disabled]="!model.length">
+						{{ 'buttons.export' | translate }}
+					</button>
+					<div class="dropdown-menu">
+						<app-export restController="Candidate/Excel"
+												filename="Candidates.xlsx"
+												[filter]="filter"
+												[contentType]="contentTypes.EXCEL">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-spreadsheet"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.excelExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+
+						<app-export restController="Candidate/Pdf"
+												filename="Candidates.pdf"
+												[filter]="filter"
+												[contentType]="contentTypes.PDF">
+							<ng-template #exportBtnTemplate>
+								<button type="button"
+												class="btn btn-sm btn-light dropdown-item d-flex align-items-center">
+									<app-icon class="mr-1"
+														icon="file-earmark-richtext"
+														width="16"
+														height="16"></app-icon>
+									{{ 'buttons.pdfExport' | translate }}
+								</button>
+							</ng-template>
+						</app-export>
+					</div>
+				</div>
+
+				<div class="btn-group">
+					<button type="button"
+									class="btn btn-sm btn-primary ml-3"
+									awaitable
+									[click]="search"
+									[clickParams]="[false]"
+									[clickContext]="this"
+									[disabled]="false">
+						<app-icon icon="search"
+											class="thicker-icon"
+											width="13"
+											height="13"></app-icon>
+						{{ 'buttons.search' | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<table class="table search-table table-bordered mt-5">
+	<thead class="thead-light">
+		<tr>
+			<th scope="col">{{ 'candidate.table.candidateNames' | translate }}</th>
+			<th scope="col">{{ 'candidate.table.nationality' | translate }}</th>
+			<th scope="col">{{ 'candidate.table.bornIn' | translate }}</th>
+			<th scope="col">{{ 'candidate.table.emailAndPhone' | translate }}</th>
+			<th scope="col"
+					style="width: 11%;">{{ 'candidate.table.applicationsCount' | translate }}</th>
+			<th scope="col"
+					style="width: 7%;">{{ 'candidate.table.details' | translate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngIf="!model.length">
+			<td colspan="6"
+					style="text-align: center">
+				{{ 'candidate.table.noResults' | translate }}
+			</td>
+		</tr>
+		<tr *ngFor="let candidate of model">
+			<td>{{ candidate.name }}<br>{{ candidate.cyrillicName }}</td>
+			<td>{{ candidate.nationality }}
+				<span style="display: block;"
+							*ngFor="let otherNationality of candidate.otherNationalities">{{ otherNationality.name}}</span>
+			</td>
+			<td>{{ candidate.country }}<br>{{ candidate.birthPlace }}, {{ candidate.birthDate | date: 'dd.MM.yyyy' }}</td>
+			<td>{{ candidate.mail }}<br>{{ candidate.phone }}</td>
+			<td>{{ candidate.applicationsCount }}</td>
+			<td class="preview"
+					style="text-align: center">
+				<a class="btn btn-sm btn-outline-primary"
+					 [routerLink]="['/candidate', 'lot', candidate.lotId, 'commit', candidate.commitId]">
+					<app-icon icon="search"
+										width="14"
+										height="14"></app-icon>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="d-flex justify-content-between">
+	<div>
+		<button *ngIf="canLoadMore && modelCounts < totalCounts"
+						type="button"
+						class="btn btn-sm btn-secondary"
+						(click)="loadMore()">
+			{{ 'buttons.moreResults' | translate }}
+		</button>
+	</div>
+	<div>
+		<p *ngIf="modelCounts > 0">Показани {{ modelCounts }} от общо {{ totalCounts }} записа</p>
+	</div>
+</div>

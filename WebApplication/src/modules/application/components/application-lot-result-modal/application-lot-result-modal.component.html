@@ -1,0 +1,86 @@
+<div class="modal-header justify-content-center">
+	<h5>{{ 'application.lotResultModal.title' | translate }}</h5>
+</div>
+
+<div class="modal-body">
+	<form #resultForm="ngForm">
+		<div class="row">
+			<div class="col-sm-12">
+				<label class="d-inline-flex align-items-center">
+					<input name="type-1"
+								 type="radio"
+								 class="mr-1"
+								 [(ngModel)]="model.type"
+								 [value]="resultTypes.certificate">
+					{{ 'application.lotResultModal.certificate' | translate }}
+				</label>
+
+				<label class="d-inline-flex align-items-center ml-5">
+					<input name="type-2"
+								 type="radio"
+								 class="mr-1"
+								 [(ngModel)]="model.type"
+								 [value]="resultTypes.rejection">
+					{{ 'application.lotResultModal.rejection' | translate }}
+				</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label class="d-inline-flex">
+
+					<ng-container *ngIf="model.type == resultTypes.certificate">
+						{{ 'application.lotResultModal.note' | translate }}
+					</ng-container>
+
+					<ng-container *ngIf="model.type == resultTypes.rejection">
+						{{ 'application.lotResultModal.rejectionReason' | translate}}
+					</ng-container>
+
+					<app-validation-error-message *ngIf="note.invalid"
+																				class="ml-1"
+																				[control]="note"
+																				[validationTexts]="validationTexts">
+					</app-validation-error-message>
+				</label>
+				<textarea #note="ngModel"
+									name="description"
+									class="form-control form-control-sm"
+									rows="5"
+									maxlength="256"
+									[(ngModel)]="model.note"
+									[required]="model.type === resultTypes.rejection"></textarea>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label class="d-inline-flex">
+					{{ 'application.lotResultModal.regulation' | translate }}
+				</label>
+
+				<app-async-select #regulation="ngModel"
+													name="regulation"
+													restUrl="Regulation/Select"
+													[(ngModel)]="model.regulation"
+													[required]="true"></app-async-select>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button type="button"
+					class="btn btn-sm btn-success"
+					(click)="save()"
+					[disabled]="!resultForm.form.valid">
+		{{ 'application.lotResultModal.saveBtn' | translate }}
+	</button>
+
+	<button type="button"
+					class="btn btn-sm btn-danger"
+					(click)="modal.close()">
+		{{ 'buttons.close' | translate }}
+	</button>
+</div>

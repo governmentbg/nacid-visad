@@ -1,0 +1,322 @@
+<ng-form>
+
+	<div class="row mb-3">
+		<div class="form-group col-sm-12 col-md-4">
+			<div class="form-check d-flex flex-column">
+				<label class="form-check-label">
+					{{ 'application.new.representative.checkboxLabels.candidateSubmits' | translate }}
+				</label>
+
+				<label class="form-check-label ml-5">
+					<input class="form-check-input"
+								 type="radio"
+								 name="personally"
+								 [(ngModel)]="model.hasRepresentative"
+								 [value]="false"
+								 [disabled]="!isEditMode">
+
+					{{ 'application.new.representative.checkboxLabels.personally' | translate }}
+				</label>
+
+				<label class="form-check-label ml-5">
+					<input class="form-check-input"
+								 type="radio"
+								 name="byRepresentative"
+								 [(ngModel)]="model.hasRepresentative"
+								 [value]="true"
+								 [disabled]="!isEditMode">
+
+					{{ 'application.new.representative.checkboxLabels.byRepresentative' | translate }}
+				</label>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="row mb-4">
+		<div class="form-group col-sm-12 col-md-5">
+			<label class="d-inline-flex">
+				{{ 'application.new.representative.requestDocument' | translate }}
+			</label>
+			<app-file-upload #applicationForCertificate="ngModel"
+											 name="applicationForCertificate"
+											 [(ngModel)]="model.applicationForCertificate"
+											 [disabled]="!isEditMode"
+											 (ngModelChange)="model.submissionDate = null"
+											 [required]="isEditMode"></app-file-upload>
+		</div>
+
+		<div class="form-group col-sm-12 col-md-3">
+			<label class="d-inline-flex">
+				{{ 'application.new.representative.submissionDate' | translate }}
+			</label>
+			<div class="input-group input-group-sm">
+				<input name="submissionDate"
+							 class="form-control"
+							 ngbDatepicker
+							 [ngStyle]="{'border': issuedDate.status == 'INVALID' ? '1px solid #dc3545' : null}"
+							 #issuedDate="ngModel"
+							 #birthDatepicker="ngbDatepicker"
+							 placeholder="дд/мм/гггг"
+							 [(ngModel)]="model.submissionDate"
+							 (keypress)="sharedService.filterDate($event)"
+							 [disabled]="!isEditMode"
+							 [minDate]="minSubmissionDate"
+							 [maxDate]="maxSubmissionDate"
+							 validDate
+							 required
+							 maxlength="20">
+				<div class="input-group-append">
+					<button class="btn btn-sm btn-outline-primary"
+									(click)="birthDatepicker.toggle()"
+									type="button"
+									[disabled]="!isEditMode">
+						<app-icon icon="calendar2-event"
+											width="12"
+											height="12"></app-icon>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<ng-container *ngIf="model.hasRepresentative">
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-4">
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input"
+									 type="radio"
+									 name="individual"
+									 (ngModelChange)="onChange($event)"
+									 [value]="representativeTypes.individual"
+									 [(ngModel)]="model.type"
+									 required
+									 [disabled]="!isEditMode">
+
+						{{ 'application.new.representative.individual' | translate }}
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-4">
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input"
+									 type="radio"
+									 name="legalEntity"
+									 (ngModelChange)="onChange($event)"
+									 [value]="representativeTypes.legalEntity"
+									 [(ngModel)]="model.type"
+									 [disabled]="!isEditMode">
+
+						{{ 'application.new.representative.legal' | translate }}
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-4">
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input"
+									 type="radio"
+									 name="foreigner"
+									 (ngModelChange)="onChange($event)"
+									 [value]="representativeTypes.foreigner"
+									 [(ngModel)]="model.type"
+									 required
+									 [disabled]="!isEditMode">
+
+						{{ 'application.new.representative.foreigner' | translate }}
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<ng-container *ngIf="model.type === representativeTypes.individual">
+				<div class="form-group col-sm-12 col-md-4">
+					<label class="d-inline-flex">
+						{{ 'application.new.firstname' | translate }}
+
+						<!-- <app-validation-error-message *ngIf="isEditMode && firstName.invalid"
+																					class="ml-1"
+																					[control]="firstName"
+																					[validationTexts]="validationTexts">
+						</app-validation-error-message> -->
+					</label>
+
+					<input #firstName="ngModel"
+								 type="text"
+								 name="firstName"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.firstName"
+								 [disabled]="!isEditMode"
+								 required
+								 [pattern]="nameRegex"
+								 minlength="2"
+								 maxlength="30">
+				</div>
+
+				<div class="form-group col-sm-12 col-md-4">
+					<label class="d-inline-flex">
+						{{ 'application.new.lastname' | translate }}
+					</label>
+
+					<input #lastName="ngModel"
+								 type="text"
+								 name="lastName"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.lastName"
+								 [disabled]="!isEditMode"
+								 required
+								 [pattern]="nameRegex"
+								 minlength="2"
+								 maxlength="30">
+				</div>
+			</ng-container>
+
+			<div class="form-group col-sm-12 col-md-8"
+					 *ngIf="model.type === representativeTypes.legalEntity">
+				<label class="d-inline-flex">
+					{{ 'application.new.representative.legalFirstName' | translate }}
+				</label>
+
+				<input #foreignerFirstName="ngModel"
+							 type="text"
+							 name="foreignerFirstName"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.firstName"
+							 [disabled]="!isEditMode"
+							 required
+							 [pattern]="cyrillicRegex"
+							 minlength="2"
+							 maxlength="80">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-8"
+					 *ngIf="model.type === representativeTypes.foreigner">
+				<label class="d-inline-flex">
+					{{ 'application.new.representative.foreignerFirstName' | translate }}
+				</label>
+
+				<input #foreignerFirstName="ngModel"
+							 type="text"
+							 name="foreignerFirstName"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.firstName"
+							 [disabled]="!isEditMode"
+							 required
+							 [pattern]="nameRegex"
+							 minlength="2"
+							 maxlength="80">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-4">
+				<label class="d-inline-flex">
+					{{('application.new.representative.' + representativeTypes[this.model.type] + 'IdentificationCode') |
+					translate}}
+				</label>
+				<ng-container *ngIf="this.model.type == representativeTypes.individual">
+					<input #identificationCode="ngModel"
+								 type="text"
+								 name="identificationCode"
+								 class="form-control form-control-sm"
+								 (ngModelChange)="validateEgn($event)"
+								 [ngStyle]="{'border': invalidEgn == true ? '1px solid #dc3545' : null}"
+								 [(ngModel)]="model.identificationCode"
+								 [disabled]="!isEditMode"
+								 required
+								 appBlockCopyPaste
+								 minlength="10"
+								 maxlength="10">
+				</ng-container>
+
+				<ng-container *ngIf="this.model.type == representativeTypes.legalEntity">
+					<input #identificationCode="ngModel"
+								 type="text"
+								 name="identificationCode"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.identificationCode"
+								 [disabled]="!isEditMode"
+								 appBlockCopyPaste
+								 minlength="9"
+								 maxlength="9">
+				</ng-container>
+
+				<ng-container *ngIf="this.model.type == representativeTypes.foreigner">
+					<input #identificationCode="ngModel"
+								 type="text"
+								 name="identificationCode"
+								 class="form-control form-control-sm"
+								 [(ngModel)]="model.identificationCode"
+								 [disabled]="!isEditMode"
+								 required
+								 appBlockCopyPaste
+								 minlength="8"
+								 maxlength="15">
+				</ng-container>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-4">
+				<label class="d-inline-flex">
+					{{ 'application.new.representative.letterOfAttorney' | translate }}
+				</label>
+				<app-file-upload #letterOfAttorney="ngModel"
+												 name="letterOfAttorney"
+												 [(ngModel)]="model.letterOfAttorney"
+												 [disabled]="!isEditMode"
+												 [showFileUrl]="!isEditMode ? true : false"></app-file-upload>
+			</div>
+
+			<div class="form-group col-sm-12 col-md-4">
+				<label class="d-inline-flex">
+					{{ 'application.new.representative.mail' | translate }}
+				</label>
+
+				<input #mail="ngModel"
+							 type="text"
+							 name="mail"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.mail"
+							 (keypress)="sharedService.filterMail($event)"
+							 [disabled]="!isEditMode"
+							 required
+							 [pattern]="mailRegex">
+			</div>
+
+			<div class="form-group col-sm-12 col-md-4">
+				<label class="d-inline-flex">
+					{{ 'application.new.representative.phone' | translate }}
+				</label>
+
+				<input #phone="ngModel"
+							 type="text"
+							 name="phone"
+							 autocomplete="off"
+							 class="form-control form-control-sm"
+							 [(ngModel)]="model.phone"
+							 [disabled]="!isEditMode"
+							 appBlockCopyPaste
+							 required
+							 (keypress)="sharedService.filterPhone($event, model.phone)"
+							 minlength="9"
+							 maxlength="14">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label>{{ 'application.new.representative.notes' | translate }}</label>
+				<textarea class="form-control form-control-sm"
+									name="note"
+									rows="3"
+									[(ngModel)]="model.note"
+									[disabled]="!isEditMode"
+									maxlength="256"></textarea>
+			</div>
+		</div>
+	</ng-container>
+</ng-form>

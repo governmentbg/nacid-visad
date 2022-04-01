@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Use some dev server for development of css and images. They must be hosted! -->
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: 'Times New Roman';
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        position: relative;
+        padding: 2em;
+      }
+
+      .uppercase {
+        text-transform: uppercase;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+	  
+	  table {
+		width: 100%;
+		color: #212529;
+		border-collapse: collapse;
+	  }
+	  
+	  table > thead > tr > th,
+	  table > tbody > tr > td {
+		border: 1px solid #000000;
+	  }
+	  
+	  @page {
+		size: landscape;
+	  }
+
+    </style>
+
+    <div>
+      
+	  
+<div class="row">
+  <div class="col-sm-12">
+    <span style="font-weight: bold;">Учебна година:</span> {{SchoolYearName}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <span style="font-weight: bold;">Вид справка:</span> {{ReportTypeName}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <span style="font-weight: bold;">Дата на справката:</span> {{ReportDate}}ч.
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <span style="font-weight: bold;">Висше училище:</span> {{InstitutionName}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <span style="font-weight: bold;">Гражданство:</span> {{NationalityName}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <span style="font-weight: bold;">Държава на раждане:</span> {{CountryName}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <span style="font-weight: bold;">ОКС:</span> {{EducationalQualificationName}}
+  </div>
+</div>
+<br>
+      <div>
+        <table>
+          <thead>
+            <tr>
+			  <th style="width: 25%;">ОКС</th>
+              <th >Изпратени за разглеждане</th>
+              <th {{{HideElement}}}>Върнати за редакция</th>
+			  <th {{{HideElement}}}>За подпис</th>
+              <th >Издадени удостоверения</th>
+			  <th >Издадени откази</th>
+			  <th >Анулирани удостоверения</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each Items}}
+            <tr>
+			  <td style="padding-left: 1em;">{{EducationalQualification}}</td>
+              <td style="padding-left: 1em; text-align:right">{{PendingCommitsCount}}</td>
+              <td {{{HideHtmlElement}}} style="padding-left: 1em; text-align:right">{{ModificationCommitsCount}}</td>
+			  <td {{{HideHtmlElement}}} style="padding-left: 1em; text-align:right">{{UnsignedCommitsCount}}</td>
+              <td style="padding-left: 1em; text-align:right">{{CertificateCommitsCount}}</td>
+			  <td style="padding-left: 1em; text-align:right">{{RejectedCommitsCount}}</td>
+			  <td style="padding-left: 1em; text-align:right">{{AnnulledCommitsCount}}</td>
+            </tr>
+			{{/each}}
+          </tbody>
+        </table>
+      </div>
+  </body>
+
+</html>
